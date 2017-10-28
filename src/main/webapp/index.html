@@ -1,0 +1,98 @@
+<!-- HTML for static distribution bundle build -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Seed UI</title>
+  <style>
+    html
+    {
+      box-sizing: border-box;
+      overflow: -moz-scrollbars-vertical;
+      overflow-y: scroll;
+    }
+    *,
+    *:before,
+    *:after
+    {
+      box-sizing: inherit;
+    }
+
+    body {
+      background: #fafafa;
+    }
+  </style>
+  <script type="text/javascript">
+    var wsUri = "ws://localhost:8080/seed/tracking";
+    var output;
+
+    function init()
+    {
+    output = document.getElementById("output");
+    testWebSocket();
+    }
+
+    function testWebSocket()
+    {
+    websocket = new WebSocket(wsUri);
+    websocket.onopen = function(evt) { onOpen(evt) };
+    websocket.onclose = function(evt) { onClose(evt) };
+    websocket.onmessage = function(evt) { onMessage(evt) };
+    websocket.onerror = function(evt) { onError(evt) };
+    }
+
+    function onOpen(evt)
+    {
+    writeToScreen("CONNECTED");
+    }
+
+    function onClose(evt)
+    {
+    writeToScreen("DISCONNECTED");
+    }
+
+    function onMessage(evt)
+    {
+    writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+    //  websocket.close();
+    }
+
+    function onError(evt)
+    {
+    writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+    }
+
+    function doSend(message)
+    {
+    writeToScreen("SENT: " + message);
+    websocket.send(message);
+    }
+
+    function doSendSomething()
+    {
+    writeToScreen("SENT: Something");
+    websocket.send("Something");
+    }
+
+    function writeToScreen(message)
+    {
+    var pre = document.createElement("p");
+    pre.style.wordWrap = "break-word";
+    pre.innerHTML = message;
+    output.appendChild(pre);
+    }
+
+    window.addEventListener("load", init, false);
+
+  </script>
+</head>
+
+<body>
+  <h2>Seed Application</h2>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <h2>WebSocket Tracking Test</h2>
+  <button onclick="doSendSomething()">Send</button>
+  <div id="output"></div>
+</body>
+
+</html>

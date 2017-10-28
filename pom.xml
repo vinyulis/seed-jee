@@ -1,0 +1,325 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.systelab</groupId>
+	<artifactId>seed</artifactId>
+	<packaging>war</packaging>
+	<version>1.0</version>
+	<name>seed</name>
+
+	<build>
+		<finalName>seed</finalName>
+
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<inherited>true</inherited>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+				</configuration>
+			</plugin>
+			
+			
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.7.201606060606</version>
+				<executions>
+			        <!--
+			            Prepares the property pointing to the JaCoCo runtime agent which
+			            is passed as VM argument when Maven the Failsafe plugin is executed.
+			        -->
+			        <execution>
+			            <id>pre-integration-test</id>
+			            <phase>pre-integration-test</phase>
+			            <goals>
+			                <goal>prepare-agent</goal>
+			            </goals>
+			            <configuration>
+			                <!-- Sets the path to the file which contains the execution data. -->
+			                <destFile>${project.build.directory}/coverage-reports/jacoco-it.exec</destFile>
+			                <append>true</append>
+                            <includes>
+                            	<include>*</include>
+                            </includes>
+                            <excludes>
+                            	<exclude>org.jboss.as.test.*</exclude>
+                            </excludes>
+                            <output>file</output>
+			                <propertyName>jacoco.cmdline</propertyName>
+			            </configuration>
+			        </execution>
+			        <!--
+			            Ensures that the code coverage report for integration tests after
+			            integration tests have been run.
+			        -->
+			        <execution>
+			            <id>post-integration-test</id>
+			            <phase>post-integration-test</phase>
+			            <goals>
+			                <goal>report</goal>
+			            </goals>
+			            <configuration>
+			                <!-- Sets the path to the file which contains the execution data. -->
+			                <dataFile>${project.build.directory}/coverage-reports/jacoco-it.exec</dataFile>
+			                <!-- Sets the output directory for the code coverage report. -->
+			                <outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
+			            </configuration>
+			        </execution>
+			    </executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
+				<configuration>
+					<excludes>
+						<exclude>**/*.java</exclude>
+					</excludes>
+					<testFailureIgnore>false</testFailureIgnore>
+					<argLine>
+						-javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar ${jacoco.cmdline}
+					</argLine>
+					<properties>
+						<property>
+							<name>listener</name>
+							<value>ru.yandex.qatools.allure.junit.AllureRunListener</value>
+						</property>
+					</properties>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjweaver</artifactId>
+						<version>${aspectj.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId> 
+				<version>2.19.1</version>
+				<configuration>
+					<includes>
+						<include>com.systelab.seed.unit.*</include>
+					</includes>
+					<testFailureIgnore>false</testFailureIgnore>
+					<argLine>
+						-javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar ${jacoco.cmdline}
+					</argLine>
+
+					<properties>
+						<property>
+							<name>listener</name>
+							<value>ru.yandex.qatools.allure.junit.AllureRunListener</value>
+						</property>
+					</properties>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjweaver</artifactId>
+						<version>${aspectj.version}</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>1.6.0</version>
+				<configuration>
+					<container>
+						<containerId>wildfly10x</containerId>
+						<timeout>60000</timeout>
+						<dependencies>
+							<dependency>
+								<groupId>com.h2database</groupId>
+								<artifactId>h2</artifactId>
+							</dependency>
+						</dependencies>
+						<systemProperties>
+						    <jboss.shutdown.forceHalt>false</jboss.shutdown.forceHalt>
+  					    </systemProperties>						
+					</container>
+					<configuration>
+						<properties>
+							<cargo.jvmargs>${cargo.container.debug.jvmargs} ${jacoco.cmdline},includes=*,excludes=org.jboss.as.test.*,append=true,output=file</cargo.jvmargs>
+						    
+							<!-- We apply a 5000 offset manually because setting cargo.port.offset 
+								does not seem to work -->
+							<cargo.servlet.port>${cargo.wildfly.port}</cargo.servlet.port>
+							<cargo.jboss.ajp.port>13009</cargo.jboss.ajp.port>
+							<cargo.logging>high</cargo.logging>
+							<cargo.jboss.management-http.port>13990</cargo.jboss.management-http.port>
+							<cargo.datasource.datasource.h2>
+								cargo.datasource.jndi=java:/SEED|
+								cargo.datasource.driver=org.h2.Driver|
+								cargo.datasource.url=jdbc:h2:mem:seed;create=true|
+								cargo.datasource.username=sa|
+								cargo.datasource.password=sa
+							</cargo.datasource.datasource.h2>
+						</properties>
+					</configuration>
+					<deployables>
+						<deployable>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>${project.artifactId}</artifactId>
+							<type>war</type>
+							<pingURL>http://localhost:${cargo.wildfly.port}/seed/swagger/index.html</pingURL>
+						</deployable>
+					</deployables>
+				</configuration>
+				<executions>
+					<execution>
+						<id>start</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>stop</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<excludeDefaults>true</excludeDefaults>
+		<plugins>
+			<plugin>
+				<groupId>ru.yandex.qatools.allure</groupId>
+				<artifactId>allure-maven-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<properties>
+						<allure.issues.tracker.pattern>http://seed.systelabsw.com/browse/%s</allure.issues.tracker.pattern>
+						<allure.tests.management.pattern>http://seed.systelabsw.com/browse/%s</allure.tests.management.pattern>
+					</properties>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>2.5</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.4</version>
+				<configuration>
+					<failOnError>false</failOnError>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.19.1</version>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet-core</artifactId>
+			<version>2.23.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-moxy</artifactId>
+			<version>2.23.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>${jjwt.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-7.0</artifactId>
+			<scope>provided</scope>
+			<type>pom</type>
+			<version>1.0.3.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-jaxrs</artifactId>
+			<version>1.5.10</version>
+		</dependency>
+		<dependency>
+			<groupId>ru.yandex.qatools.allure</groupId>
+			<artifactId>allure-junit-adaptor</artifactId>
+			<version>${allure.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- For integration tests in cargo -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.192</version>
+		</dependency>
+	</dependencies>
+
+	<properties>
+		<jjwt.version>0.7.0</jjwt.version>
+		<resteasy.version>3.0.18.Final</resteasy.version>
+		<jersey.version>2.23.1</jersey.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<allure.version>1.5.4</allure.version>
+		<aspectj.version>1.8.9</aspectj.version>
+		<cargo.wildfly.port>13080</cargo.wildfly.port>
+		<webapp.laboratoryInformationSystemUrl>http://localhost:8080/modulab/rest</webapp.laboratoryInformationSystemUrl>
+		
+	    <!-- The port to use when the debugger is enabled. -->
+	    <cargo.container.debug.port>8000</cargo.container.debug.port>
+	    <!-- The suspend setting to use when the debugger is enabled. -->
+	    <cargo.container.debug.suspend>n</cargo.container.debug.suspend>
+	    <!-- The debug arguments used to enable debugging on the forked JVM. -->
+	    <cargo.container.debug.jvmargs>-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=${cargo.container.debug.suspend},address=${cargo.container.debug.port} -Xnoagent -Djava.compiler=NONE</cargo.container.debug.jvmargs>
+
+	</properties>
+</project>
