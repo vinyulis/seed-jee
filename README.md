@@ -42,3 +42,7 @@ In order to install the dependencies you must run:
 ```
 mvn install
 ```
+
+[git]: https://git-scm.com/
+[jasmine]: https://jasmine.github.io/
+[jdk-download]: http://www.oracle.com/technetwork/java/javase/downloads
