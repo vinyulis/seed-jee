@@ -3,10 +3,18 @@
 This project is an application skeleton for a typical [JEE] backend application. You can use it
 to quickly bootstrap your JEE projects and dev environment.
 
-The seed contains a sample Patient Management application and is preconfigured to install the Angular
+The seed contains a sample Patient Management application and is preconfigured to install the JEE
 framework and a bunch of development and testing tools for instant development gratification.
 
-The seed app doesn't do much, just shows how to wire two controllers and views together.
+The seed app doesn't do much, just shows how to use different JEE standards and other suggested tools together:
+
+* Bean Validation.
+* JAXB
+* JPA
+* EJB
+* JAX-RS
+* Swagger
+* Allure with JUnit
 
 ## Getting Started
 
