@@ -16,7 +16,7 @@ To get you started you can simply clone the `seed-jee` repository and install th
 
 You need git to clone the `seed-jee` repository. You can get git from [here][git].
 
-You will need [Java Development Kit (JDK)][jdk] and Maven. You can get Maven from [here][maven].
+You will need Java Development Kit (JDK) and Maven. You can get Java JDK from [here][jdk-download]. You can get Maven from [here][maven].
 
 ### Clone `seed-jee`
 
@@ -44,5 +44,5 @@ mvn install
 ```
 
 [git]: https://git-scm.com/
-[jasmine]: https://jasmine.github.io/
+[maven]: https://maven.apache.org/download.cgi
 [jdk-download]: http://www.oracle.com/technetwork/java/javase/downloads
