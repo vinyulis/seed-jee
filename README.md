@@ -1,18 +1,21 @@
 # `seed-jee` — Seed for JEE Systelab projects
 
-This project is an application skeleton for a typical [JEE] backend application. You can use it
-to quickly bootstrap your JEE projects and dev environment.
+This project is an application skeleton for a typical [JEE][JEE] backend application. You can use it
+to quickly bootstrap your projects and dev environment.
 
-The seed contains a sample Patient Management application and is preconfigured to install the JEE
+The seed contains a Patient Management sample application and is preconfigured to install the JEE
 framework and a bunch of development and testing tools for instant development gratification.
 
-The seed app doesn't do much, just shows how to use different JEE standards and other suggested tools together:
+The app doesn't do much, just shows how to use different JEE standards and other suggested tools together:
 
 * Bean Validation.
 * JAXB
+* CDI
 * JPA
 * EJB
 * JAX-RS
+* JWT
+* CORS
 * Swagger
 * Allure with JUnit
 
@@ -22,9 +25,9 @@ To get you started you can simply clone the `seed-jee` repository and install th
 
 ### Prerequisites
 
-You need git to clone the `seed-jee` repository. You can get git from [here][git].
+You need [git][git] to clone the `seed-jee` repository.
 
-You will need Java Development Kit (JDK) and Maven. You can get Java JDK from [here][jdk-download]. You can get Maven from [here][maven].
+You will need [Java Development Kit (JDK)][jdk-download] and [Maven][maven].
 
 ### Clone `seed-jee`
 
@@ -54,3 +57,4 @@ mvn install
 [git]: https://git-scm.com/
 [maven]: https://maven.apache.org/download.cgi
 [jdk-download]: http://www.oracle.com/technetwork/java/javase/downloads
+[JEE]: http://www.oracle.com/technetwork/java/javaee/tech/index.html
