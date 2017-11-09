@@ -36,7 +36,8 @@ public class PatientServiceBean implements PatientService
   public void create(Patient patient)
   {
     em.persist(patient);
-    // TODO: Be careful because CDI Events are synchronous. JMS could be considered.
+    // TODO: Be careful because CDI Events are synchronous.
+    // IN JEE 8 fireAsync was introduced. Use it as soon as you upgrade.
     patientCreated.fire(patient);
   }
 
