@@ -8,16 +8,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.validation.Valid;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
@@ -25,6 +20,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import com.systelab.seed.util.exceptions.PatientNotFoundException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -67,9 +63,7 @@ public class PatientResource
     try
     {
       List<Patient> patients = patientService.getAllPatients();
-      return Response.ok().entity(new GenericEntity<List<Patient>>(patients)
-      {
-      }).build();
+      return Response.ok().entity(new GenericEntity<List<Patient>>(patients) {}).build();
     }
     catch (Exception ex)
     {
@@ -114,7 +108,7 @@ public class PatientResource
   {
     try
     {
-    	  patient.setId(patientId);
+      patient.setId(patientId);
       Patient updatedPatient = patientService.update(patientId, patient);
       return Response.ok().entity(updatedPatient).build();
     }
@@ -135,7 +129,7 @@ public class PatientResource
   {
     try
     {
-    		Patient patient = patientService.getPatient(patientId);
+      Patient patient = patientService.getPatient(patientId);
 
       if (patient == null)
       {
@@ -148,6 +142,33 @@ public class PatientResource
       logger.log(Level.SEVERE, PatientResource.INTERNAL_SERVER_ERROR_MESSAGE, ex);
       return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
+  }
+
+  @ApiOperation(value = "Delete a Patient", notes = "", authorizations = { @Authorization(value = "Bearer") })
+  @ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 500, message = "Internal Server Error") })
+
+  @DELETE
+  @Path("{uid}")
+  @AuthenticationTokenNeeded
+  @RolesAllowed("ADMIN")
+  public Response remove(@PathParam("uid") Long patientId)
+  {
+    try
+    {
+      patientService.delete(patientId);
+      return Response.ok().build();
+    }
+    catch (PatientNotFoundException ex)
+    {
+      logger.log(Level.SEVERE, "Invalid Patient", ex);
+      return Response.status(Status.NOT_FOUND).build();
+    }
+    catch (Exception ex)
+    {
+      logger.log(Level.SEVERE, UserResource.INTERNAL_SERVER_ERROR_MESSAGE, ex);
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+    }
 
   }
+
 }

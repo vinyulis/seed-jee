@@ -36,14 +36,14 @@ public class SwaggerApiDefinition implements ReaderListener
 
     ApiKeyAuthDefinition tokenScheme = new ApiKeyAuthDefinition();
     tokenScheme.setType("basic");
-    tokenScheme.setDescription("HTTP Basic Authentication");
+    tokenScheme.setName("HTTP Basic Authentication");
     swagger.addSecurityDefinition("basicAuth", tokenScheme);
 
     ApiKeyAuthDefinition tokenSchemeJWT = new ApiKeyAuthDefinition();
     tokenSchemeJWT.setIn(In.HEADER);
     tokenSchemeJWT.setName("Authorization");
     tokenSchemeJWT.setType("apiKey");
-    tokenSchemeJWT.setDescription("JSON Web Token Authentication");
+    tokenSchemeJWT.setName("JSON Web Token Authentication");
     swagger.addSecurityDefinition("Bearer", tokenSchemeJWT);
 
   }

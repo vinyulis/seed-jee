@@ -3,6 +3,7 @@ package com.systelab.seed.service.bean;
 import com.systelab.seed.infrastructure.events.cdi.PatientCreated;
 import com.systelab.seed.model.patient.Patient;
 import com.systelab.seed.service.PatientService;
+import com.systelab.seed.util.exceptions.PatientNotFoundException;
 
 
 import java.time.LocalDate;
@@ -21,54 +22,60 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 @Stateless
-public class PatientServiceBean implements PatientService
-{
+public class PatientServiceBean implements PatientService {
 
-  @PersistenceContext(unitName = "SEED")
-  private EntityManager em;
+    @PersistenceContext(unitName = "SEED")
+    private EntityManager em;
 
-  
-  @Inject @PatientCreated
-  private Event<Patient> patientCreated;
-  
-  @Override
-  @TransactionAttribute(TransactionAttributeType.REQUIRED)
-  public void create(Patient patient)
-  {
-    em.persist(patient);
-    // TODO: Be careful because CDI Events are synchronous.
-    // IN JEE 8 fireAsync was introduced. Use it as soon as you upgrade.
-    patientCreated.fire(patient);
-  }
 
-  @Override
-  @TransactionAttribute(TransactionAttributeType.REQUIRED)
-  public Patient update(Long id, Patient patient)
-  {
-    em.merge(patient);
-    return patient;
-  }
+    @Inject
+    @PatientCreated
+    private Event<Patient> patientCreated;
 
-  @Override
-  public List<Patient> getAllPatients()
-  {
-    List<Patient> patients = new ArrayList<Patient>();
-
-    TypedQuery<Patient> query = em.createNamedQuery(Patient.FIND_ALL, Patient.class);
-    List<Patient> results = query.getResultList();
-    for (Patient s : results)
-    {
-    	patients.add(s);
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void create(Patient patient) {
+        em.persist(patient);
+        // TODO: Be careful because CDI Events are synchronous.
+        // In JEE 8 fireAsync was introduced. Use it as soon as you upgrade.
+        patientCreated.fire(patient);
     }
-    return patients;
-  }
 
-  @Override
-  public Patient getPatient(Long patientId)
-  {
-	Patient s = null;
-    s = em.find(Patient.class, patientId);
-    return s;
-  }
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Patient update(Long id, Patient patient) {
+        em.merge(patient);
+        return patient;
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void delete(Long id) throws PatientNotFoundException {
+        Patient p = em.find(Patient.class, id);
+        if (p != null) {
+            em.remove(p);
+        } else {
+            throw new PatientNotFoundException();
+        }
+    }
+
+
+    @Override
+    public List<Patient> getAllPatients() {
+        List<Patient> patients = new ArrayList<Patient>();
+
+        TypedQuery<Patient> query = em.createNamedQuery(Patient.FIND_ALL, Patient.class);
+        List<Patient> patientList = query.getResultList();
+        for (Patient patient : patientList) {
+            patients.add(patient);
+        }
+        return patients;
+    }
+
+    @Override
+    public Patient getPatient(Long patientId) {
+        Patient p = em.find(Patient.class, patientId);
+        return p;
+    }
 
 }

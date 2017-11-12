@@ -10,22 +10,18 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-public class UserClient extends BaseClient
-{
+public class UserClient extends BaseClient {
 
-  public List<User> get() throws RequestException
-  {
-    WebTarget target = getWebTarget().path("users");
+    public List<User> get() throws RequestException {
+        WebTarget target = getWebTarget().path("users");
 
-    Response response = target.request(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, getAuthenticationToken()).get(Response.class);
+        Response response = target.request(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, getAuthenticationToken()).get(Response.class);
 
-    if (response.getStatus() != 200)
-    {
-      throw new RequestException(response.getStatus());
+        if (response.getStatus() != 200) {
+            throw new RequestException(response.getStatus());
+        }
+
+        return response.readEntity(new GenericType<List<User>>() {
+        });
     }
-
-    return response.readEntity(new GenericType<List<User>>()
-    {
-    });
-  }
 }

@@ -54,6 +54,12 @@ In order to install the dependencies you must run:
 mvn install
 ```
 
+To generate the reports including the test report, you must run:
+
+```
+mvn site
+```
+
 [git]: https://git-scm.com/
 [maven]: https://maven.apache.org/download.cgi
 [jdk-download]: http://www.oracle.com/technetwork/java/javase/downloads

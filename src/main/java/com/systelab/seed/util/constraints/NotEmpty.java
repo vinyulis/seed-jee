@@ -11,17 +11,16 @@ import javax.validation.Payload;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Target({ ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.PARAMETER })
+@Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @NotNull
 @Size(min = 1)
 @Constraint(validatedBy = {})
-public @interface NotEmpty
-{
-  String message() default "{com.systelab.seed.util.constraints.NotEmpty.message}";
+public @interface NotEmpty {
+    String message() default "{com.systelab.seed.util.constraints.NotEmpty.message}";
 
-  Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-  Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }

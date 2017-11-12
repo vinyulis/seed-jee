@@ -24,71 +24,61 @@ import javax.websocket.server.ServerEndpoint;
 
 @Singleton
 @ServerEndpoint("/tracking")
-public class RealtimePatientTracking
-{
-  private Logger logger;
+public class RealtimePatientTracking {
+    private Logger logger;
 
-  private final Set<Session> sessions = new HashSet<>();
+    private final Set<Session> sessions = new HashSet<>();
 
-  @Inject
-  void setLogger(Logger logger)
-  {
-    this.logger = logger;
-  }
-
-  @OnOpen
-  public void onOpen(final Session session)
-  {
-    // Infinite by default on GlassFish. We need this principally for WebLogic.
-    session.setMaxIdleTimeout(5L * 60L * 1000L);
-    sessions.add(session);
-  }
-
-  @OnClose
-  public void onClose(final Session session)
-  {
-    sessions.remove(session);
-  }
-  
-  @OnMessage
-  public void onMessage(String message, final Session session)
-  {    
-    Writer writer = new StringWriter();
-
-    try (JsonGenerator generator = Json.createGenerator(writer)) {
-      generator.writeStartObject().write("patientid", "papaaa").write("patientname", "asdsdasd").writeEnd();
+    @Inject
+    void setLogger(Logger logger) {
+        this.logger = logger;
     }
 
-    String jsonValue = writer.toString();
-
-    try {
-		session.getBasicRemote().sendText(jsonValue);
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-  }
-  
-  public void onPatientCreated(@Observes @PatientCreated Patient patient)
-  {
-    Writer writer = new StringWriter();
-
-    try (JsonGenerator generator = Json.createGenerator(writer)) {
-      generator.writeStartObject().write("patientid", "23233").write("patientname", patient.getName()).writeEnd();
+    @OnOpen
+    public void onOpen(final Session session) {
+        // Infinite by default on GlassFish. We need this principally for WebLogic.
+        session.setMaxIdleTimeout(5L * 60L * 1000L);
+        sessions.add(session);
     }
 
-    String jsonValue = writer.toString();
-
-    for (Session session : sessions)
-    {
-      try
-      {
-        session.getBasicRemote().sendText(jsonValue);
-      }
-      catch (IOException ex)
-      {
-        logger.log(Level.WARNING, "Unable to publish WebSocket message", ex);
-      }
+    @OnClose
+    public void onClose(final Session session) {
+        sessions.remove(session);
     }
-  }
+
+    @OnMessage
+    public void onMessage(String message, final Session session) {
+        Writer writer = new StringWriter();
+
+        try (JsonGenerator generator = Json.createGenerator(writer)) {
+            generator.writeStartObject().write("patientid", "papaaa").write("patientname", "asdsdasd").writeEnd();
+        }
+
+        String jsonValue = writer.toString();
+
+        try {
+            session.getBasicRemote().sendText(jsonValue);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void onPatientCreated(@Observes @PatientCreated Patient patient) {
+        Writer writer = new StringWriter();
+
+        try (JsonGenerator generator = Json.createGenerator(writer)) {
+            generator.writeStartObject().write("patientid", "23233").write("patientname", patient.getName()).writeEnd();
+        }
+
+        String jsonValue = writer.toString();
+
+        for (Session session : sessions) {
+            try {
+                session.getBasicRemote().sendText(jsonValue);
+            } catch (IOException ex) {
+                logger.log(Level.WARNING, "Unable to publish WebSocket message", ex);
+            }
+        }
+    }
 }

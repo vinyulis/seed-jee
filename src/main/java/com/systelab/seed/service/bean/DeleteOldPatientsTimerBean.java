@@ -22,46 +22,41 @@ import javax.inject.Inject;
 @Singleton
 @LocalBean
 @Startup
-public class DeleteOldPatientsTimerBean
-{
-  @Resource
-  private TimerService timerService;
+public class DeleteOldPatientsTimerBean {
+    @Resource
+    private TimerService timerService;
 
-  private Logger logger;
+    private Logger logger;
 
-  @Inject
-  void setLogger(Logger logger)
-  {
-    this.logger = logger;
-  }
-
-  @PostConstruct
-  private void init()
-  {
-    Collection<Timer> timers = timerService.getTimers();
-    for (Iterator<Timer> it = timers.iterator(); it.hasNext();)
-    {
-      Timer t = it.next();
-      logger.log(Level.INFO, "Found running timer with info: " + t.getInfo() + ", cancelling it");
-      t.cancel();
+    @Inject
+    void setLogger(Logger logger) {
+        this.logger = logger;
     }
 
-    TimerConfig timerConfig = new TimerConfig();
-    timerConfig.setInfo("DeleteOldPatientsTimer");
-    ScheduleExpression schedule = new ScheduleExpression();
-    schedule.hour("*").minute("10");
-    timerService.createCalendarTimer(schedule, timerConfig);
-  }
+    @PostConstruct
+    private void init() {
+        Collection<Timer> timers = timerService.getTimers();
+        for (Iterator<Timer> it = timers.iterator(); it.hasNext(); ) {
+            Timer t = it.next();
+            logger.log(Level.INFO, "Found running timer with info: " + t.getInfo() + ", cancelling it");
+            t.cancel();
+        }
 
-  @Timeout
-  public void execute(Timer timer)
-  {
-    LocalDate startDate = LocalDate.now().minusDays(1);
+        TimerConfig timerConfig = new TimerConfig();
+        timerConfig.setInfo("DeleteOldPatientsTimer");
+        ScheduleExpression schedule = new ScheduleExpression();
+        schedule.hour("*").minute("10");
+        timerService.createCalendarTimer(schedule, timerConfig);
+    }
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-    String sqlDate = formatter.format(startDate);
+    @Timeout
+    public void execute(Timer timer) {
+        LocalDate startDate = LocalDate.now().minusDays(1);
 
-    logger.log(Level.INFO, "TODO: Delete Patients where lastupdate<" + sqlDate + " and status is blank");
-  }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String sqlDate = formatter.format(startDate);
+
+        logger.log(Level.INFO, "TODO: Delete Patients where lastupdate<" + sqlDate + " and status is blank");
+    }
 
 }

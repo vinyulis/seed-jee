@@ -8,18 +8,17 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-@Target({ ElementType.FIELD })
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = CheckDateValidator.class)
-public @interface CheckDate
-{
-  // required
-  String message() default "{com.systelab.seed.util.constraints.CheckDate.message}";
+public @interface CheckDate {
+    // required
+    String message() default "{com.systelab.seed.util.constraints.CheckDate.message}";
 
-  Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-  Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 
-  // optional
-  String dateFormat();
+    // optional
+    String dateFormat();
 }

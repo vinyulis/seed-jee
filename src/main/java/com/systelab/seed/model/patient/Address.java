@@ -5,52 +5,43 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @Embeddable
-public class Address
-{
+public class Address {
 
-  String coordinates;
-  String street;
-  String city;
-  String zip;
+    String coordinates;
+    String street;
+    String city;
+    String zip;
 
-  public String getCoordinates()
-  {
-    return coordinates;
-  }
+    public String getCoordinates() {
+        return coordinates;
+    }
 
-  public void setCoordinates(String coordinates)
-  {
-    this.coordinates = coordinates;
-  }
+    public void setCoordinates(String coordinates) {
+        this.coordinates = coordinates;
+    }
 
-  public String getStreet()
-  {
-    return street;
-  }
+    public String getStreet() {
+        return street;
+    }
 
-  public void setStreet(String street)
-  {
-    this.street = street;
-  }
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
-  public String getCity()
-  {
-    return city;
-  }
+    public String getCity() {
+        return city;
+    }
 
-  public void setCity(String city)
-  {
-    this.city = city;
-  }
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-  public String getZip()
-  {
-    return zip;
-  }
+    public String getZip() {
+        return zip;
+    }
 
-  public void setZip(String zip)
-  {
-    this.zip = zip;
-  }
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
 
 }

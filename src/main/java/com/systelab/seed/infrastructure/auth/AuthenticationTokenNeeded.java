@@ -11,7 +11,6 @@ import javax.ws.rs.NameBinding;
 
 @NameBinding
 @Retention(RUNTIME)
-@Target({ TYPE, METHOD })
-public @interface AuthenticationTokenNeeded
-{
+@Target({TYPE, METHOD})
+public @interface AuthenticationTokenNeeded {
 }

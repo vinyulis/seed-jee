@@ -8,17 +8,16 @@ import java.util.List;
 import javax.ejb.Local;
 
 @Local
-public interface UserService
-{
+public interface UserService {
 
-  User getUser(Long id);
+    User getUser(Long id);
 
-  List<User> getAllUsers();
+    List<User> getAllUsers();
 
-  void create(User user);
+    void create(User user);
 
-  void delete(Long id) throws UserNotFoundException;
+    void delete(Long id) throws UserNotFoundException;
 
-  String getToken(String uri, String login, String password) throws SecurityException;
+    String getToken(String uri, String login, String password) throws SecurityException;
 
 }

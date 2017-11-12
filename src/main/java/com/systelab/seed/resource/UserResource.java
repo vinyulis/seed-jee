@@ -6,6 +6,7 @@ import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 
 import com.systelab.seed.infrastructure.auth.AuthenticationTokenNeeded;
 import com.systelab.seed.model.user.User;
+import com.systelab.seed.model.user.UserRole;
 import com.systelab.seed.service.UserService;
 import com.systelab.seed.util.exceptions.UserNotFoundException;
 
@@ -14,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -95,7 +97,7 @@ public class UserResource
   @POST
   @Path("user")
   @AuthenticationTokenNeeded
-  @PermitAll
+  @RolesAllowed("ADMIN")
   public Response create(@ApiParam(value = "User", required = true) @Valid User user)
   {
     try
@@ -143,7 +145,7 @@ public class UserResource
 
   @GET
   @AuthenticationTokenNeeded
-  @PermitAll
+  @RolesAllowed("ADMIN")
   public Response getAllUsers()
   {
     try
@@ -167,7 +169,7 @@ public class UserResource
   @DELETE
   @Path("{uid}")
   @AuthenticationTokenNeeded
-  @PermitAll
+  @RolesAllowed("ADMIN")
   public Response remove(@PathParam("uid") Long userId)
   {
     try
