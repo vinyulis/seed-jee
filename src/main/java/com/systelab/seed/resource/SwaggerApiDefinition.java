@@ -43,7 +43,6 @@ public class SwaggerApiDefinition implements ReaderListener
     tokenSchemeJWT.setIn(In.HEADER);
     tokenSchemeJWT.setName("Authorization");
     tokenSchemeJWT.setType("apiKey");
-    tokenSchemeJWT.setName("JSON Web Token Authentication");
     swagger.addSecurityDefinition("Bearer", tokenSchemeJWT);
 
   }
