@@ -27,7 +27,7 @@ To get you started you can simply clone the `seed-jee` repository and install th
 
 You need [git][git] to clone the `seed-jee` repository.
 
-You will need [Java Development Kit (JDK)][jdk-download] and [Maven][maven].
+You will need [Java™ SE Development Kit 8][jdk-download] and [Maven][maven].
 
 ### Clone `seed-jee`
 
