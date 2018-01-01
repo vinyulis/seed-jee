@@ -75,11 +75,13 @@ public class ContentSecurityPolicyFilter implements Filter {
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        String contentSecurityPolicyHeaderName = CONTENT_SECURITY_POLICY_HEADER;
-        String contentSecurityPolicy = getContentSecurityPolicy();
+        if (response instanceof HttpServletResponse) {
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
+            String contentSecurityPolicyHeaderName = CONTENT_SECURITY_POLICY_HEADER;
+            String contentSecurityPolicy = getContentSecurityPolicy();
 
-        httpResponse.addHeader(contentSecurityPolicyHeaderName, contentSecurityPolicy);
+            httpResponse.addHeader(contentSecurityPolicyHeaderName, contentSecurityPolicy);
+        }
         chain.doFilter(request, response);
     }
 
