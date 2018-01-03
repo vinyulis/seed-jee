@@ -75,6 +75,8 @@ mvn clean package cargo:run
 
 Finally browse to: http://127.0.0.1:13080/seed/swagger/ (the port could changes as it is defined in the pom file)
 
+Note: If you are using the angular seed, remember to set the API_BASE_PATH in the environment to match the same port.
+
 [git]: https://git-scm.com/
 [maven]: https://maven.apache.org/download.cgi
 [jdk-download]: http://www.oracle.com/technetwork/java/javase/downloads
