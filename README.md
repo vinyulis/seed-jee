@@ -62,7 +62,7 @@ To generate the reports including the test report, you must run:
 mvn site
 ```
 
-## Run
+### Run
 
 In order to run the application, you must install a WildFly and deploy the generated war file. 
 
