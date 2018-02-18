@@ -50,9 +50,6 @@ module add --name=com.mysql --resources=/opt/jboss/wildfly/customization/mysql-c
 # Add the datasource
 data-source add --name=SEED --driver-name=mysql --jndi-name=java:/SEED --connection-url=jdbc:mysql://$MYSQL_HOST:$MYSQL_PORT/$MYSQL_DATABASE?useUnicode=true&amp;characterEncoding=UTF-8 --user-name=$MYSQL_USER --password=$MYSQL_PASSWORD --use-ccm=false --max-pool-size=25 --blocking-timeout-wait-millis=5000 --enabled=true
 
-# Reload the server which will boot the server into normal mode as well as write messages to logstash
-:reload
-
 # Execute the batch
 run-batch
 EOF
@@ -78,12 +75,10 @@ else
     # Add the new handler to the root-logger
     /subsystem=logging/root-logger=ROOT:add-handler(name=logstash-handler)
 
-    # Reload the server which will boot the server into normal mode as well as write messages to logstash
-    :reload
-
     # Execute the batch
     run-batch
     EOF
+
 fi
 
 
