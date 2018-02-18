@@ -22,8 +22,8 @@ services:
   backend1:
     image: systelab/seed-jee:latest
     labels:
-      - "traefik.frontend.rule=PathPrefix:/"
-      - "traefik.frontend.priority=1"
+      - "traefik.frontend.rule=PathPrefix:/seed/v1/patients"
+      - "traefik.frontend.priority=3"
       - "traefik.weight=1"
       - "traefik.port=8080"
       - "traefik.backend.loadbalancer.method=wrr"
