@@ -52,6 +52,7 @@ data-source add --name=SEED --driver-name=mysql --jndi-name=java:/SEED --connect
 
 # Execute the batch
 run-batch
+
 EOF
 
 # Setup Logstash
@@ -77,6 +78,7 @@ else
 
     # Execute the batch
     run-batch
+
     EOF
 
 fi
