@@ -38,9 +38,6 @@ echo "=> LOGSTASH_PORT (logstash port): " $LOGSTASH_PORT
 $JBOSS_CLI -c << EOF
 batch
 
-set CONNECTION_URL=jdbc:mysql://$MYSQL_URI/$MYSQL_DATABASE
-echo "Connection URL: " $CONNECTION_URL
-
 # Add MySQL module
 module add --name=com.mysql --resources=/opt/jboss/wildfly/customization/mysql-connector-java-5.1.45-bin.jar --dependencies=javax.api,javax.transaction.api
 
@@ -59,27 +56,28 @@ EOF
 if [ -z ${LOGSTASH_HOST+x} ]; then
     echo "LOGSTASH_HOST is unset. No need to wait";
 else
-    /opt/jboss/wildfly/customization/wait-for-it.sh $LOGSTASH_HOST:$LOGSTASH_PORT -t 0
 
-    $JBOSS_CLI -c << EOF
-    batch
+/opt/jboss/wildfly/customization/wait-for-it.sh $LOGSTASH_HOST:$LOGSTASH_PORT -t 0
 
-    # Add the module, replace the directory on the resources attribute to the path where you downloaded the jboss-logmanager-ext library
-    module add --name=org.jboss.logmanager.ext --dependencies=org.jboss.logmanager,javax.json.api,javax.xml.stream.api --resources=/opt/jboss/wildfly/customization/jboss-logmanager-ext-1.0.0.Alpha3.jar
+$JBOSS_CLI -c << EOF
+batch
 
-    # Add the logstash formatter
-    /subsystem=logging/custom-formatter=logstash:add(class=org.jboss.logmanager.ext.formatters.LogstashFormatter,module=org.jboss.logmanager.ext)
+# Add the module, replace the directory on the resources attribute to the path where you downloaded the jboss-logmanager-ext library
+module add --name=org.jboss.logmanager.ext --dependencies=org.jboss.logmanager,javax.json.api,javax.xml.stream.api --resources=/opt/jboss/wildfly/customization/jboss-logmanager-ext-1.0.0.Alpha3.jar
 
-    # Add a socket-handler using the logstash formatter. Replace the hostname and port to the values needed for your logstash install
-    /subsystem=logging/custom-handler=logstash-handler:add(class=org.jboss.logmanager.ext.handlers.SocketHandler,module=org.jboss.logmanager.ext,named-formatter=logstash,properties={hostname=$LOGSTASH_HOST, port=$LOGSTASH_PORT})
+# Add the logstash formatter
+/subsystem=logging/custom-formatter=logstash:add(class=org.jboss.logmanager.ext.formatters.LogstashFormatter,module=org.jboss.logmanager.ext)
 
-    # Add the new handler to the root-logger
-    /subsystem=logging/root-logger=ROOT:add-handler(name=logstash-handler)
+# Add a socket-handler using the logstash formatter. Replace the hostname and port to the values needed for your logstash install
+/subsystem=logging/custom-handler=logstash-handler:add(class=org.jboss.logmanager.ext.handlers.SocketHandler,module=org.jboss.logmanager.ext,named-formatter=logstash,properties={hostname=$LOGSTASH_HOST, port=$LOGSTASH_PORT})
 
-    # Execute the batch
-    run-batch
+# Add the new handler to the root-logger
+/subsystem=logging/root-logger=ROOT:add-handler(name=logstash-handler)
 
-    EOF
+# Execute the batch
+run-batch
+
+EOF
 
 fi
 
