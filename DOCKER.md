@@ -157,3 +157,5 @@ docker-compose -f docker-compose-with-elk.yml up -d
 ```
 
 Browse http://localhost to run the application, http://localhost:90/seed/swagger/ in order to get the API main page, http://localhost:8080/ to get traefik  and http://localhost:5601/ to get the Kibana main page. 
+
+> [Diagramr](http://diagramr.inventage.com/) could help you in order to understand the docker-compose files.
