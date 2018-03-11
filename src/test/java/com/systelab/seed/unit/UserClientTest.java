@@ -30,7 +30,6 @@ public class UserClientTest extends BaseClientTest {
     @DisplayName("Test User list")
     @Description("Test that we can get a List of users.")
     @Tag("user")
-
     @Severity(SeverityLevel.BLOCKER)
     @Test
     public void testGetUserList() throws RequestException {
