@@ -62,6 +62,12 @@ To generate the reports including the test report, you must run:
 mvn site
 ```
 
+Once the reports has been generated, you can check them with the following command (Ctrl+C to stop it):
+
+```bash
+mvn jetty:run
+```
+
 ### Run
 
 In order to run the application, you must install a WildFly and deploy the generated war file. 

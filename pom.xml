@@ -271,11 +271,14 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.2.10.v20150310</version>
+                <version>9.4.8.v20171121</version>
                 <configuration>
                     <webAppSourceDirectory>${project.build.directory}/site/allure-maven-plugin</webAppSourceDirectory>
                     <stopKey>stop</stopKey>
                     <stopPort>1234</stopPort>
+					<httpConnector>
+						<port>9999</port>
+					</httpConnector>
                 </configuration>
             </plugin>
 		</plugins>
