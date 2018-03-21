@@ -8,6 +8,7 @@ import com.systelab.seed.model.patient.Address;
 import com.systelab.seed.model.patient.Patient;
 
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import io.qameta.allure.*;
@@ -25,6 +26,7 @@ public class PatientClientTest extends BaseClientTest {
     public static void init() throws RequestException {
         clientForPatient = new PatientClient();
         login(clientForPatient);
+        logger.log(Level.INFO, clientForPatient.getServerURL());
     }
 
 
@@ -77,7 +79,7 @@ public class PatientClientTest extends BaseClientTest {
             caughtException = ex;
         }
         TestUtil.checkObjectIsNotNull("Exception", caughtException);
-        TestUtil.checkThatIHaveAnExceptionException(400, ((RequestException) caughtException).getErrorCode());
+        TestUtil.checkThatIHaveAnException(400, ((RequestException) caughtException).getErrorCode());
     }
 
     @TmsLink("SEED-SCC-2")
@@ -178,7 +180,7 @@ public class PatientClientTest extends BaseClientTest {
             caughtException = ex;
         }
         TestUtil.checkObjectIsNotNull("Exception", caughtException);
-        TestUtil.checkThatIHaveAnExceptionException(404, ((RequestException) caughtException).getErrorCode());
+        TestUtil.checkThatIHaveAnException(404, ((RequestException) caughtException).getErrorCode());
     }
 
     @TmsLink("SEED-SCC-6")
@@ -204,14 +206,13 @@ public class PatientClientTest extends BaseClientTest {
     @Severity(SeverityLevel.BLOCKER)
     @Test
     public void testDeleteUnexistingPatient() throws RequestException {
-        boolean result = false;
         Exception caughtException = null;
         try {
-            result = clientForPatient.delete(new Long(34324).longValue());
+            clientForPatient.delete(new Long(34324).longValue());
         } catch (Exception ex) {
             caughtException = ex;
         }
         TestUtil.checkObjectIsNotNull("Exception", caughtException);
-        TestUtil.checkThatIHaveAnExceptionException(404, ((RequestException) caughtException).getErrorCode());
+        TestUtil.checkThatIHaveAnException(404, ((RequestException) caughtException).getErrorCode());
     }
 }

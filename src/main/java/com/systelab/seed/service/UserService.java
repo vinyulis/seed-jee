@@ -1,6 +1,7 @@
 package com.systelab.seed.service;
 
 import com.systelab.seed.model.user.User;
+import com.systelab.seed.util.exceptions.SeedBaseException;
 import com.systelab.seed.util.exceptions.UserNotFoundException;
 
 import java.util.List;
@@ -14,10 +15,10 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    void create(User user);
+    void create(User user) throws SeedBaseException;
 
     void delete(Long id) throws UserNotFoundException;
 
-    String getToken(String uri, String login, String password) throws SecurityException;
+    String getToken(String uri, String login, String password) throws SecurityException, SeedBaseException;
 
 }

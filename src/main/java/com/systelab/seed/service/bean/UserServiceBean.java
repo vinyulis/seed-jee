@@ -2,6 +2,7 @@ package com.systelab.seed.service.bean;
 
 import com.systelab.seed.model.user.User;
 import com.systelab.seed.service.UserService;
+import com.systelab.seed.util.exceptions.SeedBaseException;
 import com.systelab.seed.util.exceptions.UserNotFoundException;
 import com.systelab.seed.util.security.AuthenticationTokenGenerator;
 import com.systelab.seed.util.security.PasswordDigest;
@@ -54,7 +55,7 @@ public class UserServiceBean implements UserService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void create(User user) {
+    public void create(User user) throws SeedBaseException {
         user.setPassword(passwordDigest.digest(user.getPassword()));
         em.persist(user);
     }
@@ -71,13 +72,13 @@ public class UserServiceBean implements UserService {
     }
 
     @Override
-    public String getToken(String uri, String login, String password) {
+    public String getToken(String uri, String login, String password) throws SeedBaseException {
         User user = authenticate(login, password);
         return tokenGenerator.issueToken(user.getLogin(), user.getRole().toString(), uri);
 
     }
 
-    private User authenticate(String login, String password) {
+    private User authenticate(String login, String password) throws SeedBaseException {
         TypedQuery<User> query = em.createNamedQuery(User.FIND_BY_LOGIN_PASSWORD, User.class);
         query.setParameter("login", login);
         query.setParameter("password", passwordDigest.digest(password));

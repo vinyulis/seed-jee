@@ -63,7 +63,7 @@ To generate the reports including the test report, you must run:
 mvn site
 ```
 
-Once the reports has been generated, you can check them with the following command (Ctrl+C to stop it):
+Once the reports have been generated, you can check them with the following command (Ctrl+C to stop it), and then browsing to http://localhost:9999 :
 
 ```bash
 mvn jetty:run

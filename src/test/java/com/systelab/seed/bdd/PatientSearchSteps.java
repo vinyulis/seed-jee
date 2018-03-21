@@ -18,8 +18,8 @@ import java.util.List;
  */
 public class PatientSearchSteps {
 
-	Hospital hospital = new Hospital();
-	List<Patient> result = new ArrayList<>();
+	private Hospital hospital = new Hospital();
+	private List<Patient> result = new ArrayList<>();
 
 	@Given(".+patient with the name '(.+)', surname '(.+)', born in (.+)")
 	public void addNewPatient(final String name, final String surname, @Format("dd MMMMM yyyy") final Date born) {
