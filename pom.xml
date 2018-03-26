@@ -202,10 +202,10 @@
 			<plugin>
 				<groupId>org.codehaus.cargo</groupId>
 				<artifactId>cargo-maven2-plugin</artifactId>
-				<version>1.6.0</version>
+				<version>1.6.7</version>
 				<configuration>
 					<container>
-						<containerId>wildfly10x</containerId>
+						<containerId>wildfly11x</containerId>
 						<timeout>60000</timeout>
 						<dependencies>
 							<dependency>
@@ -219,7 +219,7 @@
 					</container>
 					<configuration>
 						<properties>
-							<cargo.jvmargs>${cargo.container.debug.jvmargs} ${jacoco.cmdline},includes=*,excludes=org.jboss.as.test.*,append=true,output=file</cargo.jvmargs>
+							<cargo.start.jvmargs>${cargo.container.debug.jvmargs} ${jacoco.cmdline},includes=*,excludes=org.jboss.as.test.*,append=true,output=file</cargo.start.jvmargs>
 
 							<!-- We apply a 5000 offset manually because setting cargo.port.offset
 								does not seem to work -->
