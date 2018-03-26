@@ -9,7 +9,7 @@ to quickly bootstrap your projects and dev environment.
 The seed contains a Patient Management sample application and is preconfigured to install the JEE
 framework and a bunch of development and testing tools for instant development gratification.
 
-The app doesn't do much, just shows how to use different JEE standards and other suggested tools together:
+The app doesn't do too much, just shows how to use different JEE standards and other suggested tools together:
 
 * [Bean Validation][beanvalidation].
 * [JAXB][jaxb]
@@ -72,7 +72,7 @@ In order to install the dependencies you must run:
 mvn install
 ```
 
-To generate the reports including the test report, you must run:
+To generate the reports including the Allure test report, you must run:
 
 ```bash
 mvn site
@@ -143,7 +143,7 @@ docker run -e MYSQL_HOST=ip -e MYSQL_PORT=port -e MYSQL_DATABASE=database -e MYS
 
 The app will be available at http://localhost:8080
 
-In the github root folder, you will information on how to use docker-compose, a tool for define and run multi-container Docker applications.
+In the github root folder, you will find information on how to use docker-compose, a tool for define and run multi-container Docker applications.
 
 
 [git]: https://git-scm.com/
