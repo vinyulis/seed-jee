@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/systelab/seed-jee.svg?branch=master)](https://travis-ci.org/systelab/seed-jee)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0fc377c99d404e2bada322b98f4e6f52)](https://www.codacy.com/app/alfonsoserra/seed-jee?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=systelab/seed-jee&amp;utm_campaign=Badge_Grade)
 
 # `seed-jee` — Seed for JEE Systelab projects
@@ -60,6 +61,12 @@ To generate the reports including the test report, you must run:
 
 ```bash
 mvn site
+```
+
+Once the reports have been generated, you can check them with the following command (Ctrl+C to stop it), and then browsing to http://localhost:9999 :
+
+```bash
+mvn jetty:run
 ```
 
 ### Run

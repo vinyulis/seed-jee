@@ -1,6 +1,5 @@
 package com.systelab.seed.client;
 
-import com.systelab.seed.model.patient.Patient;
 import com.systelab.seed.model.user.User;
 import io.qameta.allure.Step;
 

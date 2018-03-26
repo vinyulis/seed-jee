@@ -26,7 +26,7 @@ public class TestUtil {
     }
 
     @Step("Check that the error code is {0}")
-    public static void checkThatIHaveAnExceptionException(int expectedCode, int code) {
+    public static void checkThatIHaveAnException(int expectedCode, int code) {
         Assertions.assertEquals(expectedCode, code);
     }
 
@@ -37,5 +37,6 @@ public class TestUtil {
 
     @Step("The returned id is {1}")
     public static void printReturnedId(String idName, long id) {
+        // Returning id
     }
 }

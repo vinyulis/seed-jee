@@ -24,33 +24,33 @@ public class TokenGeneratorTest {
     }
 
     @Test
-    public void when_a_key_is_generated_then_algorithm_is_DES() {
+    public void whenKeyIsGeneratedThenAlgorithmIsDES() {
         Key key = jwtTokenGenerator.generateKey();
         Assertions.assertEquals("DES", key.getAlgorithm(), "Unexpected Key SignAlgorithm");
     }
 
     @Test
-    public void when_a_key_is_generated_then_format_is_RAW() {
+    public void whenKeyIsGeneratedThenFormatIsDES() {
         Key key = jwtTokenGenerator.generateKey();
         Assertions.assertEquals("RAW", key.getFormat(), "Unexpected Key Format");
     }
 
     @Test
     @DisplayName("Assert example when a sentence throws an exception")
-    public void given_a_random_token_when_is_invalid_then_exception_thrown() {
+    public void givenARandomTokenWhenIsInvalidThenExceptionThrown() {
         Assertions.assertThrows(MalformedJwtException.class, () -> {
             jwtTokenGenerator.validateToken(generateRandomToken());
         });
     }
 
     @Test
-    public void given_user_role_uri_when_is_valid_then_exception_thrown() {
+    public void givenUserRoleUriWhenIsValidThenExceptionThrown() {
         String token = jwtTokenGenerator.issueToken("Systelab", "ADMIN", "http://127.0.0.1:13080/seed/v1/");
         Assertions.assertNotNull(token);
     }
 
     @Test
-    public void given_user_role_uri_when_token_generated_then_validated() throws Exception {
+    public void givenUserRoleUriWhenTokenGeneratedThenValidated() throws Exception {
         String token = jwtTokenGenerator.issueToken("Systelab", "ADMIN", "http://127.0.0.1:13080/seed/v1/");
         String validated = jwtTokenGenerator.validateToken(token);
 
@@ -58,7 +58,7 @@ public class TokenGeneratorTest {
     }
 
     @Test
-    public void given_incorrect_data_when_token_generated_then_validated() throws Exception {
+    public void givenIncorrectDataWhenTokenGeneratedThenValidated() throws Exception {
         String token = jwtTokenGenerator.issueToken("Systelab", "USER", "http://127.0.0.1:13080/seed/v1/");
         String validated = jwtTokenGenerator.validateToken(token);
 

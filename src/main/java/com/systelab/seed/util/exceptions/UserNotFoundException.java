@@ -1,7 +1,7 @@
 package com.systelab.seed.util.exceptions;
 
-public class UserNotFoundException extends Exception {
+public class UserNotFoundException extends SeedBaseException {
     public UserNotFoundException() {
-        super();
+        super(ErrorCode.USER_NOT_FOUND);
     }
 }

@@ -4,9 +4,9 @@ import java.util.Random;
 
 public class FakeNameGenerator {
 
-    static Random rnd = new Random();// random is used for randomly select consonance and vowels from given list
-    static final String CONS = "zcvsbnmljfdsrtyp"; //String which store the consonances
-    static final String VOWELS = "aeiou";//String which store vowels
+    private static Random rnd = new Random();// random is used for randomly select consonance and vowels from given list
+    private static final String CONS = "zcvsbnmljfdsrtyp"; //String which store the consonances
+    private static final String VOWELS = "aeiou";//String which store vowels
 
     public String generateName(boolean uppercase) //len define length of names
     {

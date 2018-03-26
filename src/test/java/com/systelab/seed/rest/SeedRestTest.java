@@ -19,25 +19,25 @@ public class SeedRestTest extends FunctionalTest {
 
     @Test
     @Disabled("With this @Disabled Annotation we can skip the test putting the reason as a comment")
-    public void make_sure_that_google_is_up() {
+    public void makeSureThatGoogleIsUp() {
         given().when().get("http://www.google.com").then().statusCode(200);
     }
 
     @Test
     @DisplayName("Basic ping test to check that seed REST API is up")
-    public void basic_ping_test() {
+    public void basicPingTest() {
         given().when().get("/patients").then().statusCode(200);
     }
 
     @Test
     @DisplayName("Test incorrect input data checking the unexpected behaviour")
-    public void invalid_patient_id_test() {
+    public void invalidPatientIdTest() {
         given().when().get("/patients/patient/155").then().statusCode(404);
     }
 
     @Test
     @DisplayName("Test to check the expected body response content")
-    public void given_patient_request_check_body_response() {
+    public void givenPatientRequestCheckBodyResponse() {
         // given-when calling doGetResponse method
         Response response = doGetResponse("/patients");
         response.then().body(containsString("Worldwide"));
@@ -45,7 +45,7 @@ public class SeedRestTest extends FunctionalTest {
 
     @Test
     @DisplayName("Test to check Json content in an attribute")
-    public void given_Url_whenSuccessOnGetsResponseAndJsonHasRequiredKV_thenCorrect() {
+    public void givenUrlWhenSuccessOnGetsResponseAndJsonHasRequiredKVThenCorrect() {
         given().when().get("patients").then().statusCode(200).assertThat()
                 .body("address.zip", hasItems("08110"));
     }
@@ -53,7 +53,7 @@ public class SeedRestTest extends FunctionalTest {
     @DisplayName("Test Json Schema Response")
     @Disabled()
     @Test
-    public void givenUrl_whenValidatesResponseWithStaticSettings_thenCorrect() {
+    public void givenUrlWhenValidatesResponseWithStaticSettingsThenCorrect() {
         Response response = doGetResponse("/patients");
         response.then().assertThat().body(matchesJsonSchemaInClasspath
                 ("json-schema.json").using(JsonSchemaValidator.settings.with().checkedValidation(false)));
