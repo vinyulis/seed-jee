@@ -12,11 +12,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import io.qameta.allure.*;
+import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.*;
+import org.junit.runners.MethodSorters;
 
-
+@TmsLink("SEED-TC-1")
 @Feature("Patients Test Suite")
 @DisplayName("Patients Test Suite")
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PatientClientTest extends BaseClientTest {
     private static final Logger logger = Logger.getLogger(PatientClientTest.class.getName());
 
@@ -53,15 +56,12 @@ public class PatientClientTest extends BaseClientTest {
         return patient;
     }
 
-    @TmsLink("SEED-SCC-1")
-    @Issue("ISSUE-1")
-    @Link(value = "REQ-PAT-1", type = "requirement")
-    @DisplayName("Test create a Patient.")
-    @Description("Test that is possible to create a patient.\n\nPrerequisites:\n\n" + "- Prerequisite 1\n" + "- Prerequisite 2\n" + "- Prerequisite 3\n")
+    @DisplayName("Create a Patient.")
+    @Description("Action: Create a patient with name, surname and email and check that the values are stored.")
     @Tag("patient")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testCreatePatient() throws RequestException {
+    public void AT001_testCreatePatient() throws RequestException {
         Patient patient = getPatientData("John", "Burrows", "jburrows@werfen.com");
         Patient patientCreated = clientForPatient.create(patient);
         TestUtil.checkObjectIsNotNull("patient", patientCreated);
@@ -82,10 +82,8 @@ public class PatientClientTest extends BaseClientTest {
         TestUtil.checkThatIHaveAnException(400, ((RequestException) caughtException).getErrorCode());
     }
 
-    @TmsLink("SEED-SCC-2")
-    @Link(value = "REQ-PAT-2", type = "requirement")
-    @DisplayName("Test create invalid Patient.")
-    @Description("Test that it is not possible to create a patient with invalid data and that we get an exception.")
+    @DisplayName("Create an invalid Patient.")
+    @Description("Action: Create a patient with invalid data and check that we get an exception.")
     @Tag("patient")
     @Severity(SeverityLevel.BLOCKER)
     @Test
@@ -117,10 +115,8 @@ public class PatientClientTest extends BaseClientTest {
         }
     }
 
-    @TmsLink("SEED-SCC-3")
-    @Link(value = "REQ-PAT-3", type = "requirement")
-    @DisplayName("Test get a Patient List.")
-    @Description("Test that is possible to get a list of patients.")
+    @DisplayName("Get a Patient List.")
+    @Description("Action: Get a list of patients, and check that are all the patient of the DB")
     @Tag("patient")
     @Severity(SeverityLevel.BLOCKER)
     @Test
@@ -141,13 +137,11 @@ public class PatientClientTest extends BaseClientTest {
         int finalSize = patientsAfter.size();
         savePatientsDatabase(patientsAfter);
 
-        TestUtil.checkANumber("Check that the new list size is", initialSize + 5, finalSize);
+        TestUtil.checkANumber("The new list size is", initialSize + 5, finalSize);
     }
 
-    @TmsLink("SEED-SCC-4")
-    @Link(value = "REQ-PAT-4", type = "requirement")
-    @DisplayName("Test get a Patient.")
-    @Description("Test that it is possible to get a patient.")
+    @DisplayName("Get a Patient.")
+    @Description("Action: Get a patient by id, an check that the data is correct.")
     @Tag("patient")
     @Severity(SeverityLevel.BLOCKER)
     @Test
@@ -163,10 +157,8 @@ public class PatientClientTest extends BaseClientTest {
         TestUtil.checkField("Email", "jburrows@werfen.com", patientRetrieved.getEmail());
     }
 
-    @TmsLink("SEED-SCC-5")
-    @Link(value = "REQ-PAT-5", type = "requirement")
-    @DisplayName("Test get non-existing Patient.")
-    @Description("Test that if I try to get an non-existing patient, I get a 404.")
+    @DisplayName("Get a non-existing Patient.")
+    @Description("Action: Get a patient with an non-existing id and check that we get the appropriate error.")
     @Tag("patient")
     @Severity(SeverityLevel.BLOCKER)
     @Test
@@ -183,10 +175,8 @@ public class PatientClientTest extends BaseClientTest {
         TestUtil.checkThatIHaveAnException(404, ((RequestException) caughtException).getErrorCode());
     }
 
-    @TmsLink("SEED-SCC-6")
-    @Link(value = "REQ-PAT-6", type = "requirement")
-    @DisplayName("Test delete a Patient.")
-    @Description("Test that is possible to delete a patient.")
+    @DisplayName("Delete a Patient.")
+    @Description("Action: Delete a patient by id and check that we get an ok.")
     @Tag("patient")
     @Severity(SeverityLevel.BLOCKER)
     @Test
@@ -198,10 +188,8 @@ public class PatientClientTest extends BaseClientTest {
         TestUtil.checkResultIsTrue(result);
     }
 
-    @TmsLink("SEED-SCC-7")
-    @Link(value = "REQ-PAT-7", type = "requirement")
-    @DisplayName("Test delete non-existing Patient.")
-    @Description("Test that if I try to delete an non-existing patient, I get a 404.")
+    @DisplayName("Delete non-existing Patient.")
+    @Description("Action: Delete a patient with an non-existing id and check that we get the appropriate error.")
     @Tag("patient")
     @Severity(SeverityLevel.BLOCKER)
     @Test

@@ -12,7 +12,7 @@ import com.systelab.seed.model.user.UserRole;
 import org.junit.jupiter.api.*;
 import io.qameta.allure.*;
 
-
+@TmsLink("SEED-TC-2")
 @Feature("User Test Suite")
 @DisplayName("User Test Suite")
 public class UserClientTest extends BaseClientTest {
@@ -26,9 +26,8 @@ public class UserClientTest extends BaseClientTest {
         login(clientForUser);
     }
 
-    @TmsLink("SEED-USR-1")
-    @DisplayName("Test User list")
-    @Description("Test that we can get a List of users.")
+    @DisplayName("Get the User list")
+    @Description("Action: Get a list of users, and check that are all the users of the DB")
     @Tag("user")
     @Severity(SeverityLevel.BLOCKER)
     @Test
@@ -44,10 +43,8 @@ public class UserClientTest extends BaseClientTest {
         Assertions.assertNotNull(users);
     }
 
-    @TmsLink("SEED-USR-2")
-    @Link(value = "REQ-USR-2", type = "requirement")
-    @DisplayName("Test create a User.")
-    @Description("Test that is possible to create a user.\n\nPrerequisites:\n\n" + "- Prerequisite 1\n" + "- Prerequisite 2\n" + "- Prerequisite 3\n")
+    @DisplayName("Create a User.")
+    @Description("Action: Create a user with name, login and password and check that the values are stored.")
     @Tag("user")
     @Severity(SeverityLevel.BLOCKER)
     @Test
