@@ -74,18 +74,6 @@ In order to install the dependencies you must run:
 mvn install
 ```
 
-To generate the reports including the Allure test report, you must run:
-
-```bash
-mvn site
-```
-
-Once the reports have been generated, you can check them with the following command (Ctrl+C to stop it), and then browsing to http://localhost:9999 :
-
-```bash
-mvn jetty:run
-```
-
 > If you are working in a Windows environment, you could have some issues if the maven local repository is in a folder with a name containing white spaces (quite common as the default value is ${user.home}/.m2/repository). In order to avoid this, it is fully recommended that you specify another folder in your maven settings.xml file.     
 
 For example:
@@ -98,6 +86,14 @@ For example:
   
   ...
 ```
+
+To generate the reports including the Allure test report, you must run:
+
+```bash
+mvn site
+```
+
+Once the reports have been generated, you can check them by browsing the folder target/site and opening the file allure-maven.html
 
 ### Run
 
