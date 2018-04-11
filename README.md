@@ -36,7 +36,7 @@ You will need [Java™ SE Development Kit 8][jdk-download] and [Maven][maven].
 
 #### Maven in Windows
 
-If you are working in a Windows environment, you could have some issues if the maven local repository is in a folder with a name containing white spaces (quite common as the default value is ${user.home}/.m2/repository). In order to avoid this, it is fully recommended that you specify another folder in your maven settings.xml file.     
+>If you are working in a Windows environment, you could have some issues if the maven local repository is in a folder with a name containing white spaces (quite common as the default value is ${user.home}/.m2/repository). In order to avoid this, it is fully recommended that you specify another folder in your maven settings.xml file.     
 
 For example:
 
@@ -72,19 +72,6 @@ In order to install the dependencies you must run:
 
 ```bash
 mvn install
-```
-
-> If you are working in a Windows environment, you could have some issues if the maven local repository is in a folder with a name containing white spaces (quite common as the default value is ${user.home}/.m2/repository). In order to avoid this, it is fully recommended that you specify another folder in your maven settings.xml file.     
-
-For example:
-
-```xml
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
-  <localRepository>/dev/repo</localRepository>
-  
-  ...
 ```
 
 To generate the reports including the Allure test report, you must run:
