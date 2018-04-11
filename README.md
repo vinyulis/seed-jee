@@ -22,6 +22,8 @@ The app doesn't do too much, just shows how to use different JEE standards and o
 * [Swagger][swagger]
 * [Allure][allure] with [JUnit][junit]
 
+You can also check out our [Spring Boot implementation](https://github.com/systelab/seed-springboot).
+
 ## Getting Started
 
 To get you started you can simply clone the `seed-jee` repository and install the dependencies:
