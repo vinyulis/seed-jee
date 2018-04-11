@@ -22,6 +22,8 @@ The app doesn't do too much, just shows how to use different JEE standards and o
 * [Swagger][swagger]
 * [Allure][allure] with [JUnit][junit]
 
+You can also check out our [Spring Boot implementation](https://github.com/systelab/seed-springboot).
+
 ## Getting Started
 
 To get you started you can simply clone the `seed-jee` repository and install the dependencies:
@@ -34,7 +36,7 @@ You will need [Java™ SE Development Kit 8][jdk-download] and [Maven][maven].
 
 #### Maven in Windows
 
-If you are working in a Windows environment, you could have some issues if the maven local repository is in a folder with a name containing white spaces (quite common as the default value is ${user.home}/.m2/repository). In order to avoid this, it is fully recommended that you specify another folder in your maven settings.xml file.     
+>If you are working in a Windows environment, you could have some issues if the maven local repository is in a folder with a name containing white spaces (quite common as the default value is ${user.home}/.m2/repository). In order to avoid this, it is fully recommended that you specify another folder in your maven settings.xml file.     
 
 For example:
 
@@ -78,24 +80,7 @@ To generate the reports including the Allure test report, you must run:
 mvn site
 ```
 
-Once the reports have been generated, you can check them with the following command (Ctrl+C to stop it), and then browsing to http://localhost:9999 :
-
-```bash
-mvn jetty:run
-```
-
-> If you are working in a Windows environment, you could have some issues if the maven local repository is in a folder with a name containing white spaces (quite common as the default value is ${user.home}/.m2/repository). In order to avoid this, it is fully recommended that you specify another folder in your maven settings.xml file.     
-
-For example:
-
-```xml
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
-  <localRepository>/dev/repo</localRepository>
-  
-  ...
-```
+Once the reports have been generated, you can check them by browsing the folder target/site and opening the file allure-maven.html
 
 ### Run
 
