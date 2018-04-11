@@ -1,7 +1,5 @@
 package com.systelab.seed.infrastructure.security;
 
-import org.apache.commons.lang.StringUtils;
-
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
@@ -103,19 +101,23 @@ public class ContentSecurityPolicyFilter implements Filter {
     }
 
     private void addDirectiveToContentSecurityPolicy(StringBuilder contentSecurityPolicy, String directiveName, String value) {
-        if (StringUtils.isNotBlank(value) && !defaultSrc.equals(value)) {
+        if (isNotBlank(value) && !defaultSrc.equals(value)) {
             contentSecurityPolicy.append("; ").append(directiveName).append(" ").append(value);
         }
     }
 
     private void addSandoxDirectiveToContentSecurityPolicy(StringBuilder contentSecurityPolicy, String value) {
-        if (StringUtils.isNotBlank(value)) {
+        if (isNotBlank(value)) {
             if ("true".equalsIgnoreCase(value)) {
                 contentSecurityPolicy.append("; ").append(SANDBOX);
             } else {
                 contentSecurityPolicy.append("; ").append(SANDBOX).append(" ").append(value);
             }
         }
+    }
+
+    private boolean isNotBlank(String s) {
+        return s!=null && !s.trim().equals("");
     }
 
     @Override
