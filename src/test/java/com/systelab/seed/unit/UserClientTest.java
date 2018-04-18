@@ -12,8 +12,8 @@ import com.systelab.seed.model.user.UserRole;
 import org.junit.jupiter.api.*;
 import io.qameta.allure.*;
 
-@TmsLink("SEED-TC-2")
-@Feature("User Test Suite")
+@TmsLink("TC0002_LoginManagement_IntegrationTest")
+@Feature("User Test Suite.\n\nGoal:\nThis test case is intended to verify the correct ....\n\nEnvironment:\n...\nPreconditions:\nN/A.")
 @DisplayName("User Test Suite")
 public class UserClientTest extends BaseClientTest {
     private static final Logger logger = Logger.getLogger(UserClientTest.class.getName());

@@ -16,8 +16,8 @@ import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.*;
 import org.junit.runners.MethodSorters;
 
-@TmsLink("SEED-TC-1")
-@Feature("Patients Test Suite")
+@TmsLink("TC0001_PatientManagement_IntegrationTest")
+@Feature("Patient Test Suite.\n\nGoal:\nThis test case is intended to verify the correct ....\n\nEnvironment:\n...\nPreconditions:\nN/A.")
 @DisplayName("Patients Test Suite")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PatientClientTest extends BaseClientTest {
@@ -61,7 +61,7 @@ public class PatientClientTest extends BaseClientTest {
     @Tag("patient")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void AT001_testCreatePatient() throws RequestException {
+    public void testCreatePatient() throws RequestException {
         Patient patient = getPatientData("John", "Burrows", "jburrows@werfen.com");
         Patient patientCreated = clientForPatient.create(patient);
         TestUtil.checkObjectIsNotNull("patient", patientCreated);
