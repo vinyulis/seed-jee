@@ -131,6 +131,10 @@ The app will be available at http://localhost:8080
 
 In the github root folder, you will find information on how to use docker-compose, a tool for define and run multi-container Docker applications.
 
+## Kubernetes
+
+In the github root folder, you will find information on how to run the solution Kubernetes.
+
 
 [git]: https://git-scm.com/
 [maven]: https://maven.apache.org/download.cgi
