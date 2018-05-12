@@ -83,7 +83,7 @@ mvn site
 
 Once the reports have been generated, you can check them by browsing the folder target/site and opening the file allure-maven.html
 
-### Run
+### Run in a traditional way
 
 In order to run the application, you must install a WildFly and deploy the generated war file. 
 
@@ -133,7 +133,7 @@ In the github root folder, you will find information on how to use docker-compos
 
 ## Kubernetes
 
-In the github root folder, you will find information on how to run the solution Kubernetes.
+In the github root folder, you will find information on how to run the solution in a [Kubernetes](kubernetes) cluster.
 
 
 [git]: https://git-scm.com/
@@ -152,4 +152,5 @@ In the github root folder, you will find information on how to run the solution 
 [swagger]: https://swagger.io/
 [allure]: https://docs.qameta.io/allure/
 [junit]: https://junit.org/junit5/
+[kubernetes]: https://kubernetes.io
 
