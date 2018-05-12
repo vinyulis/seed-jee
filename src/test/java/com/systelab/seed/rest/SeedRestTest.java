@@ -1,5 +1,6 @@
 package com.systelab.seed.rest;
 
+import io.qameta.allure.Feature;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
@@ -15,6 +16,9 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
  * Note: See FunctionalTest parent class to understand how to obtain the rest entry endpoint
  * Note: Consider to change the method naming to pass Codacy checks
  */
+
+@Feature("Rest Assured Test Suite")
+@DisplayName("Rest Assureddocker-compose  Test Suite")
 public class SeedRestTest extends FunctionalTest {
 
     @Test

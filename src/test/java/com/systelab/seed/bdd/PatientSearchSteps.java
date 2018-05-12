@@ -8,6 +8,8 @@ import cucumber.api.Format;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import io.qameta.allure.Feature;
+import org.junit.jupiter.api.DisplayName;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +18,9 @@ import java.util.List;
 /**
  * Class that defines the expected behavior for BDD Test following Gherkin language
  */
+
+@Feature("Cucumber Test Suite")
+@DisplayName("Cucumber Test Suite")
 public class PatientSearchSteps {
 
 	private Hospital hospital = new Hospital();

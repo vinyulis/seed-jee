@@ -1,6 +1,7 @@
 package com.systelab.seed;
 
 import com.systelab.seed.infrastructure.auth.TokenAuthenticationFilter;
+import com.systelab.seed.resource.HealthResource;
 import com.systelab.seed.resource.PatientResource;
 import com.systelab.seed.resource.UserResource;
 import com.systelab.seed.util.security.CORSFilter;
@@ -38,6 +39,7 @@ public class SeedApplication extends Application {
 
         resources.add(PatientResource.class);
         resources.add(UserResource.class);
+        resources.add(HealthResource.class);
 
         resources.add(CORSFilter.class);
         resources.add(TokenAuthenticationFilter.class);
