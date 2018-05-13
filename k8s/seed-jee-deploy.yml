@@ -18,6 +18,13 @@ spec:
       containers:
       - name: seed-jee-pod
         image: systelab/seed-jee:version-2.1
+        resources:
+          limits:
+            cpu: "1"
+            memory: "800Mi"
+          requests:
+            cpu: "0.5"
+            memory: "500Mi"
         env:
           - name: MYSQL_URI
             value: "mysql-svc:3306"
