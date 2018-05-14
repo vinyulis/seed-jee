@@ -19,7 +19,7 @@ In order to create the Deployments and services, run:
 ```bash
 kubectl create -f k8s/mysql-deploy.yml
 kubectl create -f k8s/mysql-svc.yml
-kubectl create -f k8s/sedd-jee-deploy.yml
+kubectl create -f k8s/seed-jee-deploy.yml
 kubectl create -f k8s/seed-jee-svc.yml
 kubectl create -f k8s/seed-angular-deploy.yml
 kubectl create -f k8s/seed-angular-svc.yml
