@@ -133,7 +133,7 @@ In the github root folder, you will find information on how to use docker-compos
 
 ## Kubernetes
 
-In the github root folder, you will find information on how to run the solution in a [Kubernetes](kubernetes) cluster.
+In the github root folder, you will find information on how to run the solution in a [Kubernetes][kubernetes] cluster.
 
 
 [git]: https://git-scm.com/
