@@ -38,9 +38,12 @@ public class ContentSecurityPolicyFilter implements Filter {
     /** Defines valid sources for loading frames */
     public static final String FRAME_SRC = "frame-src";
 
+    public static final String SELF_REFERENCE= "'self'";
+
+
 
     private String reportUri;
-    private String sandbox;
+    private String sandboxValue;
     private String defaultSrc;
     private String imgSrc;
     private String scriptSrc;
@@ -56,16 +59,16 @@ public class ContentSecurityPolicyFilter implements Filter {
     @Override
     public void init(FilterConfig fConfig) throws ServletException {
         reportUri = "/ContentSecurityPolicyReporter";
-        sandbox = "";
+        sandboxValue = "";
         defaultSrc = "none";
-        imgSrc = "'self' data: online.swagger.io";
-        scriptSrc = "'self' 'unsafe-inline' ";
-        styleSrc = "'self' 'unsafe-inline' fonts.googleapis.com";
-        fontSrc = "'self' fonts.gstatic.com";
-        connectSrc = "'self'";
-        objectSrc = "'self'";
-        mediaSrc = "'self'";
-        frameSrc = "'self'";
+        imgSrc = SELF_REFERENCE+" data: online.swagger.io";
+        scriptSrc = SELF_REFERENCE+" 'unsafe-inline' ";
+        styleSrc = SELF_REFERENCE+" 'unsafe-inline' fonts.googleapis.com";
+        fontSrc = SELF_REFERENCE+" fonts.gstatic.com";
+        connectSrc = SELF_REFERENCE;
+        objectSrc = SELF_REFERENCE;
+        mediaSrc = SELF_REFERENCE;
+        frameSrc = SELF_REFERENCE;
     }
 
     /**
@@ -95,7 +98,7 @@ public class ContentSecurityPolicyFilter implements Filter {
         addDirectiveToContentSecurityPolicy(contentSecurityPolicy, MEDIA_SRC, mediaSrc);
         addDirectiveToContentSecurityPolicy(contentSecurityPolicy, FRAME_SRC, frameSrc);
         addDirectiveToContentSecurityPolicy(contentSecurityPolicy, REPORT_URI, reportUri);
-        addSandoxDirectiveToContentSecurityPolicy(contentSecurityPolicy, sandbox);
+        addSandoxDirectiveToContentSecurityPolicy(contentSecurityPolicy, sandboxValue);
 
         return contentSecurityPolicy.toString();
     }

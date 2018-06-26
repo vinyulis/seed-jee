@@ -41,11 +41,6 @@ public class PatientResource
   @EJB
   private PatientService patientService;
 
-  // If you need the context.
-  // @Context
-  // private UriInfo uriInfo;
-  // uriInfo.getAbsolutePath().toASCIIString() is the entry point
-
   @Inject
   public void setLogger(Logger logger)
   {
@@ -159,12 +154,12 @@ public class PatientResource
     }
     catch (PatientNotFoundException ex)
     {
-      logger.log(Level.SEVERE, "Invalid Patient", ex);
+      logger.log(Level.SEVERE, PatientResource.INVALID_PATIENT_ERROR_MESSAGE, ex);
       return Response.status(Status.NOT_FOUND).build();
     }
     catch (Exception ex)
     {
-      logger.log(Level.SEVERE, UserResource.INTERNAL_SERVER_ERROR_MESSAGE, ex);
+      logger.log(Level.SEVERE, PatientResource.INTERNAL_SERVER_ERROR_MESSAGE, ex);
       return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
 

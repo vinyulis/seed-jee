@@ -32,7 +32,7 @@ public class PatientServiceBean implements PatientService {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void create(Patient patient) {
         em.persist(patient);
-        // TODO: Be careful because CDI Events are synchronous.
+        // Be careful because CDI Events are synchronous.
         // In JEE 8 fireAsync was introduced. Use it as soon as you upgrade.
         patientCreated.fire(patient);
     }
@@ -70,8 +70,7 @@ public class PatientServiceBean implements PatientService {
 
     @Override
     public Patient getPatient(Long patientId) {
-        Patient p = em.find(Patient.class, patientId);
-        return p;
+        return em.find(Patient.class, patientId);
     }
 
 }

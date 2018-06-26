@@ -2,10 +2,11 @@ package com.systelab.seed.model.patient;
 
 import javax.persistence.Embeddable;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 @XmlRootElement
 @Embeddable
-public class Address {
+public class Address implements Serializable {
 
     private String coordinates;
     private String street;
