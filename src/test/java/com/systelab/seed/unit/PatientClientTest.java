@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.systelab.seed.model.patient.PatientsPage;
+import com.systelab.seed.util.pagination.Page;
 import io.qameta.allure.*;
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.*;
@@ -121,18 +123,16 @@ public class PatientClientTest extends BaseClientTest {
 
         createSomePatients(5);
 
-        List<Patient> patientsBefore = clientForPatient.get();
+        Page<Patient> patientsBefore = clientForPatient.get();
         Assertions.assertNotNull(patientsBefore);
-        int initialSize = patientsBefore.size();
-
-        savePatientsDatabase(patientsBefore);
-
+        long initialSize = patientsBefore.getTotal();
+        savePatientsDatabase(patientsBefore.getContent());
         createSomePatients(5);
 
-        List<Patient> patientsAfter = clientForPatient.get();
+        Page<Patient> patientsAfter = clientForPatient.get();
         Assertions.assertNotNull(patientsAfter);
-        int finalSize = patientsAfter.size();
-        savePatientsDatabase(patientsAfter);
+        long finalSize = patientsAfter.getTotal();
+        savePatientsDatabase(patientsAfter.getContent());
 
         TestUtil.checkANumber("The new list size is", initialSize + 5, finalSize);
     }

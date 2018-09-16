@@ -8,12 +8,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "SeedUser")
 @NamedQueries({@NamedQuery(name = User.FIND_ALL, query = "SELECT u FROM User u ORDER BY u.surname DESC"), @NamedQuery(name = User.FIND_BY_LOGIN_PASSWORD, query = "SELECT u FROM User u WHERE u.login = :login AND u.password = :password"),
-        @NamedQuery(name = User.COUNT_ALL, query = "SELECT COUNT(u) FROM User u")})
+        @NamedQuery(name = User.ALL_COUNT, query = "SELECT COUNT(u.id) FROM User u")})
 
 @XmlRootElement
 public class User {
     public static final String FIND_ALL = "User.findAll";
-    public static final String COUNT_ALL = "User.countAll";
+    public static final String ALL_COUNT = "User.allCount";
     public static final String FIND_BY_LOGIN_PASSWORD = "User.findByLoginAndPassword";
 
     @Id

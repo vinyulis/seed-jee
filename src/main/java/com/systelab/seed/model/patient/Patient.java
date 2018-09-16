@@ -17,9 +17,11 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "patient")
-@NamedQueries({@NamedQuery(name = Patient.FIND_ALL, query = "SELECT p FROM Patient p")})
+@NamedQueries({@NamedQuery(name = Patient.FIND_ALL, query = "SELECT p FROM Patient p"),
+        @NamedQuery(name = Patient.ALL_COUNT, query = "SELECT COUNT(p.id) FROM Patient p") })
 public class Patient implements Serializable {
     public static final String FIND_ALL = "Patient.findAll";
+    public static final String ALL_COUNT = "Patient.allCount";
 
     @Id
     @GeneratedValue

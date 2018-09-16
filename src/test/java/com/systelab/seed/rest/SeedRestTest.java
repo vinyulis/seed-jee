@@ -18,14 +18,8 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
  */
 
 @Feature("Rest Assured Test Suite")
-@DisplayName("Rest Assureddocker-compose  Test Suite")
+@DisplayName("Rest Assured Test Suite")
 public class SeedRestTest extends FunctionalTest {
-
-    @Test
-    @Disabled("With this @Disabled Annotation we can skip the test putting the reason as a comment")
-    public void makeSureThatGoogleIsUp() {
-        given().when().get("http://www.google.com").then().statusCode(200);
-    }
 
     @Test
     @DisplayName("Basic ping test to check that seed REST API is up")
@@ -51,7 +45,7 @@ public class SeedRestTest extends FunctionalTest {
     @DisplayName("Test to check Json content in an attribute")
     public void givenUrlWhenSuccessOnGetsResponseAndJsonHasRequiredKVThenCorrect() {
         given().when().get("patients").then().statusCode(200).assertThat()
-                .body("address.zip", hasItems("08110"));
+                .body("content.address.zip", hasItems("08110"));
     }
 
     @DisplayName("Test Json Schema Response")

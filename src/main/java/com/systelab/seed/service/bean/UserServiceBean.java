@@ -1,9 +1,12 @@
 package com.systelab.seed.service.bean;
 
+import com.systelab.seed.model.patient.Patient;
 import com.systelab.seed.model.user.User;
 import com.systelab.seed.service.UserService;
 import com.systelab.seed.util.exceptions.SeedBaseException;
 import com.systelab.seed.util.exceptions.UserNotFoundException;
+import com.systelab.seed.util.pagination.Page;
+import com.systelab.seed.util.pagination.Pageable;
 import com.systelab.seed.util.security.AuthenticationTokenGenerator;
 import com.systelab.seed.util.security.PasswordDigest;
 
@@ -42,9 +45,16 @@ public class UserServiceBean implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public Page<User> getAllUsers(Pageable pageable) {
+        TypedQuery<Long> queryTotal = em.createNamedQuery(User.ALL_COUNT, Long.class);
         TypedQuery<User> query = em.createNamedQuery(User.FIND_ALL, User.class);
-        return  query.getResultList();
+        query.setFirstResult((pageable.getPageNumber() - 1) * pageable.getPageSize());
+        query.setMaxResults(pageable.getPageSize());
+
+        List<User> users=query.getResultList();
+        long total=(long) queryTotal.getSingleResult();
+
+        return new Page<User> (users,total);
     }
 
     @Override

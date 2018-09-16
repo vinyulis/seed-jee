@@ -4,6 +4,8 @@ import com.systelab.seed.infrastructure.events.cdi.PatientCreated;
 import com.systelab.seed.model.patient.Patient;
 import com.systelab.seed.service.PatientService;
 import com.systelab.seed.util.exceptions.PatientNotFoundException;
+import com.systelab.seed.util.pagination.Page;
+import com.systelab.seed.util.pagination.Pageable;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -17,6 +19,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
@@ -57,31 +60,39 @@ public class PatientServiceBean implements PatientService {
         }
     }
 
-
     @Override
-    public List<Patient> getAllPatients() {
+    public Page<Patient> getAllPatients(Pageable pageable) {
+
+        TypedQuery<Long> queryTotal = em.createNamedQuery(Patient.ALL_COUNT, Long.class);
         TypedQuery<Patient> query = em.createNamedQuery(Patient.FIND_ALL, Patient.class);
-        return query.getResultList();
+        query.setFirstResult((pageable.getPageNumber() - 1) * pageable.getPageSize());
+        query.setMaxResults(pageable.getPageSize());
+
+        List<Patient> patients=query.getResultList();
+        long total=(long) queryTotal.getSingleResult();
+
+        return new Page<Patient> (patients,total);
     }
+
 
     @Override
     public XSSFWorkbook getPatientsWorkbook() {
         final XSSFWorkbook wb = new XSSFWorkbook();
 
         Sheet sheet = wb.createSheet("Patients");
-        List<Patient> patients = getAllPatients();
+        Page<Patient> patients = getAllPatients(new Pageable());
 
         int rowNum = 0;
 
-        for (int i = 0; i < patients.size(); i++) {
+        for (int i = 0; i < patients.getContent().size(); i++) {
             Row row = sheet.createRow(rowNum++);
             int colNum = 0;
             Cell cell1 = row.createCell(colNum++);
-            cell1.setCellValue(patients.get(i).getName());
+            cell1.setCellValue(patients.getContent().get(i).getName());
             Cell cell2 = row.createCell(colNum++);
-            cell2.setCellValue(patients.get(i).getSurname());
+            cell2.setCellValue(patients.getContent().get(i).getSurname());
             Cell cell3 = row.createCell(colNum++);
-            cell3.setCellValue(patients.get(i).getEmail());
+            cell3.setCellValue(patients.getContent().get(i).getEmail());
         }
         return wb;
     }

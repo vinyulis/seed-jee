@@ -2,8 +2,11 @@ package com.systelab.seed.resource;
 
 import com.systelab.seed.infrastructure.auth.AuthenticationTokenNeeded;
 import com.systelab.seed.model.patient.Patient;
+import com.systelab.seed.model.patient.PatientsPage;
 import com.systelab.seed.service.PatientService;
 import com.systelab.seed.util.exceptions.PatientNotFoundException;
+import com.systelab.seed.util.pagination.Page;
+import com.systelab.seed.util.pagination.Pageable;
 import io.swagger.annotations.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -19,7 +22,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 import java.io.OutputStream;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,14 +45,15 @@ public class PatientResource {
     }
 
     @ApiOperation(value = "Get all Patients", notes = "")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "An array of Patient", response = Patient.class, responseContainer = "List"), @ApiResponse(code = 500, message = "Internal Server Error")})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "A Page of Patients", response = PatientsPage.class), @ApiResponse(code = 500, message = "Internal Server Error")})
 
     @GET
     @PermitAll
-    public Response getAllPatients() {
+    public Response getAllPatients(@DefaultValue("1") @QueryParam("page") int page, @DefaultValue("20") @QueryParam("size") int itemsPerPage) {
         try {
-            List<Patient> patients = patientService.getAllPatients();
-            return Response.ok().entity(new GenericEntity<List<Patient>>(patients) {
+            Page<Patient> patients = patientService.getAllPatients(new Pageable(page, itemsPerPage));
+
+            return Response.ok().entity(new GenericEntity<Page<Patient>>(patients) {
             }).build();
         } catch (Exception ex) {
             logger.log(Level.SEVERE, PatientResource.INTERNAL_SERVER_ERROR_MESSAGE, ex);

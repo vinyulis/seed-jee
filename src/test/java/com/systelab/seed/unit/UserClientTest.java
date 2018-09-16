@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.systelab.seed.model.user.UserRole;
+import com.systelab.seed.util.pagination.Page;
 import org.junit.jupiter.api.*;
 import io.qameta.allure.*;
 
@@ -34,8 +35,8 @@ public class UserClientTest extends BaseClientTest {
     public void testGetUserList() throws RequestException {
         login(clientForUser);
 
-        List<User> users = clientForUser.get();
-        clientForUser.get().stream().forEach((user)->logger.info(user.getSurname()));
+        Page<User> users = clientForUser.get();
+        clientForUser.get().getContent().stream().forEach((user)->logger.info(user.getSurname()));
         Assertions.assertNotNull(users);
     }
 
