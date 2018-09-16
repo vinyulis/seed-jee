@@ -141,7 +141,7 @@ public class UserResource
   @GET
   @AuthenticationTokenNeeded
   @RolesAllowed("ADMIN")
-  public Response getAllUsers(@DefaultValue("1") @QueryParam("page") int page, @DefaultValue("20") @QueryParam("size") int itemsPerPage)
+  public Response getAllUsers(@DefaultValue("0") @QueryParam("page") int page, @DefaultValue("20") @QueryParam("size") int itemsPerPage)
   {
     try
     {

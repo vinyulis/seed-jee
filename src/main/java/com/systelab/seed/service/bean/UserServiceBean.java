@@ -45,13 +45,13 @@ public class UserServiceBean implements UserService {
     public Page<User> getAllUsers(Pageable pageable) {
         TypedQuery<Long> queryTotal = em.createNamedQuery(User.ALL_COUNT, Long.class);
         TypedQuery<User> query = em.createNamedQuery(User.FIND_ALL, User.class);
-        query.setFirstResult((pageable.getPageNumber() - 1) * pageable.getPageSize());
+        query.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
         query.setMaxResults(pageable.getPageSize());
 
         List<User> users = query.getResultList();
-        long total = (long) queryTotal.getSingleResult();
+        long totalElements = (long) queryTotal.getSingleResult();
 
-        return new Page<User>(users, total);
+        return new Page<User>(users, totalElements);
     }
 
     @Override

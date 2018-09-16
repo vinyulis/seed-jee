@@ -12,31 +12,31 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Page<T> implements Serializable {
 
-    private long total;
+    private long totalElements;
 
     @XmlAnyElement(lax = true)
     private List<T> content;
 
     public Page() {
         this.content = new ArrayList();
-        this.total = 0;
+        this.totalElements = 0;
     }
 
     public Page(List<T> content, long total) {
         this.content = content;
-        this.total = total;
+        this.totalElements = total;
     }
 
-    public void setTotal(long total) {
-        this.total = total;
+    public void setTotalElements(long totalElements) {
+        this.totalElements = totalElements;
     }
 
     public void setContent(List<T> content) {
         this.content = content;
     }
 
-    public long getTotal() {
-        return total;
+    public long getTotalElements() {
+        return totalElements;
     }
 
     public List<T> getContent() {

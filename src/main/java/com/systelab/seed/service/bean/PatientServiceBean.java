@@ -64,13 +64,13 @@ public class PatientServiceBean implements PatientService {
 
         TypedQuery<Long> queryTotal = em.createNamedQuery(Patient.ALL_COUNT, Long.class);
         TypedQuery<Patient> query = em.createNamedQuery(Patient.FIND_ALL, Patient.class);
-        query.setFirstResult((pageable.getPageNumber() - 1) * pageable.getPageSize());
+        query.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
         query.setMaxResults(pageable.getPageSize());
 
         List<Patient> patients = query.getResultList();
-        long total = (long) queryTotal.getSingleResult();
+        long totalElements = (long) queryTotal.getSingleResult();
 
-        return new Page<Patient>(patients, total);
+        return new Page<Patient>(patients, totalElements);
     }
 
 

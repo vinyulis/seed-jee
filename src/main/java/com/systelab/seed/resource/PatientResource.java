@@ -49,7 +49,7 @@ public class PatientResource {
 
     @GET
     @PermitAll
-    public Response getAllPatients(@DefaultValue("1") @QueryParam("page") int page, @DefaultValue("20") @QueryParam("size") int itemsPerPage) {
+    public Response getAllPatients(@DefaultValue("0") @QueryParam("page") int page, @DefaultValue("20") @QueryParam("size") int itemsPerPage) {
         try {
             Page<Patient> patients = patientService.getAllPatients(new Pageable(page, itemsPerPage));
 

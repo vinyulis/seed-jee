@@ -123,13 +123,13 @@ public class PatientClientTest extends BaseClientTest {
 
         Page<Patient> patientsBefore = clientForPatient.get();
         Assertions.assertNotNull(patientsBefore);
-        long initialSize = patientsBefore.getTotal();
+        long initialSize = patientsBefore.getTotalElements();
         savePatientsDatabase(patientsBefore.getContent());
         createSomePatients(5);
 
         Page<Patient> patientsAfter = clientForPatient.get();
         Assertions.assertNotNull(patientsAfter);
-        long finalSize = patientsAfter.getTotal();
+        long finalSize = patientsAfter.getTotalElements();
         savePatientsDatabase(patientsAfter.getContent());
 
         TestUtil.checkANumber("The new list size is", initialSize + 5, finalSize);
