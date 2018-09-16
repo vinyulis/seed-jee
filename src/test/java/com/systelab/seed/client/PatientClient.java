@@ -1,7 +1,6 @@
 package com.systelab.seed.client;
 
 import com.systelab.seed.model.patient.Patient;
-import com.systelab.seed.model.patient.PatientsPage;
 import com.systelab.seed.util.pagination.Page;
 import io.qameta.allure.Step;
 
@@ -47,8 +46,8 @@ public class PatientClient extends BaseClient {
         if (response.getStatus() != 200) {
             throw new RequestException(response.getStatus());
         }
-        Page<Patient> page = response.readEntity(new GenericType<Page<Patient>>() {});
-        return page;
+        return response.readEntity(new GenericType<Page<Patient>>() {
+        });
     }
 
     @Step("Delete the patient {0}")

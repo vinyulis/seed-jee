@@ -6,8 +6,6 @@ import com.systelab.seed.util.exceptions.UserNotFoundException;
 import com.systelab.seed.util.pagination.Page;
 import com.systelab.seed.util.pagination.Pageable;
 
-import java.util.List;
-
 import javax.ejb.Local;
 
 @Local

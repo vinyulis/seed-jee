@@ -4,14 +4,12 @@ import com.systelab.seed.TestUtil;
 import com.systelab.seed.client.RequestException;
 import com.systelab.seed.client.UserClient;
 import com.systelab.seed.model.user.User;
-
-import java.util.List;
-import java.util.logging.Logger;
-
 import com.systelab.seed.model.user.UserRole;
 import com.systelab.seed.util.pagination.Page;
-import org.junit.jupiter.api.*;
 import io.qameta.allure.*;
+import org.junit.jupiter.api.*;
+
+import java.util.logging.Logger;
 
 @TmsLink("TC0002_LoginManagement_IntegrationTest")
 @Feature("User Test Suite.\n\nGoal:\nThis test case is intended to verify the correct ....\n\nEnvironment:\n...\nPreconditions:\nN/A.")
@@ -36,7 +34,7 @@ public class UserClientTest extends BaseClientTest {
         login(clientForUser);
 
         Page<User> users = clientForUser.get();
-        clientForUser.get().getContent().stream().forEach((user)->logger.info(user.getSurname()));
+        clientForUser.get().getContent().stream().forEach((user) -> logger.info(user.getSurname()));
         Assertions.assertNotNull(users);
     }
 
@@ -46,7 +44,7 @@ public class UserClientTest extends BaseClientTest {
     @Severity(SeverityLevel.BLOCKER)
     @Test
     public void testCreateUser() throws RequestException {
-        User user =new User();
+        User user = new User();
         user.setLogin("agoncalves");
         user.setPassword("agoncalves");
         user.setName("Antonio");

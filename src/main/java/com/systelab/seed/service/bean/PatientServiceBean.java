@@ -19,7 +19,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
@@ -68,10 +67,10 @@ public class PatientServiceBean implements PatientService {
         query.setFirstResult((pageable.getPageNumber() - 1) * pageable.getPageSize());
         query.setMaxResults(pageable.getPageSize());
 
-        List<Patient> patients=query.getResultList();
-        long total=(long) queryTotal.getSingleResult();
+        List<Patient> patients = query.getResultList();
+        long total = (long) queryTotal.getSingleResult();
 
-        return new Page<Patient> (patients,total);
+        return new Page<Patient>(patients, total);
     }
 
 

@@ -6,17 +6,15 @@ import com.systelab.seed.client.PatientClient;
 import com.systelab.seed.client.RequestException;
 import com.systelab.seed.model.patient.Address;
 import com.systelab.seed.model.patient.Patient;
-
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import com.systelab.seed.model.patient.PatientsPage;
 import com.systelab.seed.util.pagination.Page;
 import io.qameta.allure.*;
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.*;
 import org.junit.runners.MethodSorters;
+
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static java.util.stream.Collectors.joining;
 
@@ -101,7 +99,7 @@ public class PatientClientTest extends BaseClientTest {
 
     @Attachment(value = "Patients Database")
     public String savePatientsDatabase(List<Patient> patients) {
-        return patients.stream().map((patient)-> patient.getSurname() + ", " + patient.getName() + "\t" + patient.getEmail()).collect(joining("\n"));
+        return patients.stream().map((patient) -> patient.getSurname() + ", " + patient.getName() + "\t" + patient.getEmail()).collect(joining("\n"));
     }
 
     @Step("Create {0} patients")
@@ -161,10 +159,9 @@ public class PatientClientTest extends BaseClientTest {
     @Test
     public void testGetUnexistingPatient() throws RequestException {
 
-        Patient patientRetrieved;
         Exception caughtException = null;
         try {
-            patientRetrieved = clientForPatient.get(new Long(23434534).longValue());
+            Patient patientRetrieved = clientForPatient.get(new Long(23434534).longValue());
         } catch (Exception ex) {
             caughtException = ex;
         }

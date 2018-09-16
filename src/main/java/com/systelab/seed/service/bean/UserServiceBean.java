@@ -1,6 +1,5 @@
 package com.systelab.seed.service.bean;
 
-import com.systelab.seed.model.patient.Patient;
 import com.systelab.seed.model.user.User;
 import com.systelab.seed.service.UserService;
 import com.systelab.seed.util.exceptions.SeedBaseException;
@@ -10,9 +9,6 @@ import com.systelab.seed.util.pagination.Pageable;
 import com.systelab.seed.util.security.AuthenticationTokenGenerator;
 import com.systelab.seed.util.security.PasswordDigest;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -20,6 +16,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Stateless
 public class UserServiceBean implements UserService {
@@ -51,10 +48,10 @@ public class UserServiceBean implements UserService {
         query.setFirstResult((pageable.getPageNumber() - 1) * pageable.getPageSize());
         query.setMaxResults(pageable.getPageSize());
 
-        List<User> users=query.getResultList();
-        long total=(long) queryTotal.getSingleResult();
+        List<User> users = query.getResultList();
+        long total = (long) queryTotal.getSingleResult();
 
-        return new Page<User> (users,total);
+        return new Page<User>(users, total);
     }
 
     @Override
