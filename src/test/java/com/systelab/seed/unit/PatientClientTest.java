@@ -161,7 +161,7 @@ public class PatientClientTest extends BaseClientTest {
 
         Exception caughtException = null;
         try {
-            Patient patientRetrieved = clientForPatient.get(new Long(23434534).longValue());
+            clientForPatient.get(new Long(23434534).longValue());
         } catch (Exception ex) {
             caughtException = ex;
         }
