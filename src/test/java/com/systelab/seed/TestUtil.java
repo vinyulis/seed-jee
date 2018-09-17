@@ -35,6 +35,11 @@ public class TestUtil {
         Assertions.assertEquals(expected, value);
     }
 
+    @Step("Expected result: {0} {1}")
+    public static void checkANumber(String message, long expected, long value) {
+        Assertions.assertEquals(expected, value);
+    }
+
     @Step("Expected result: The returned id is {1}")
     public static void printReturnedId(String idName, long id) {
         // Returning id

@@ -1,9 +1,8 @@
 package com.systelab.seed.client;
 
 import com.systelab.seed.model.patient.Patient;
+import com.systelab.seed.util.pagination.Page;
 import io.qameta.allure.Step;
-
-import java.util.List;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -23,7 +22,6 @@ public class PatientClient extends BaseClient {
         if (response.getStatus() != 200) {
             throw new RequestException(response.getStatus());
         }
-
         return response.readEntity(Patient.class);
     }
 
@@ -40,7 +38,7 @@ public class PatientClient extends BaseClient {
     }
 
     @Step("Get the patient list")
-    public List<Patient> get() throws RequestException {
+    public Page<Patient> get() throws RequestException {
         WebTarget target = this.getWebTarget().path("patients");
 
         Response response = target.request(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, getAuthenticationToken()).get(Response.class);
@@ -48,8 +46,7 @@ public class PatientClient extends BaseClient {
         if (response.getStatus() != 200) {
             throw new RequestException(response.getStatus());
         }
-
-        return response.readEntity(new GenericType<List<Patient>>() {
+        return response.readEntity(new GenericType<Page<Patient>>() {
         });
     }
 

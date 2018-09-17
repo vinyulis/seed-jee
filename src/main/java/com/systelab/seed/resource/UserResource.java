@@ -5,6 +5,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
 import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 
 import com.systelab.seed.infrastructure.auth.AuthenticationTokenNeeded;
+import com.systelab.seed.model.patient.UsersPage;
 import com.systelab.seed.model.user.User;
 import com.systelab.seed.service.UserService;
 import com.systelab.seed.util.exceptions.UserNotFoundException;
@@ -18,14 +19,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.validation.Valid;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
@@ -33,6 +27,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import com.systelab.seed.util.pagination.Page;
+import com.systelab.seed.util.pagination.Pageable;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -140,17 +136,17 @@ public class UserResource
   }
 
   @ApiOperation(value = "Get all Users", notes = "", authorizations = { @Authorization(value = "Bearer") })
-  @ApiResponses(value = { @ApiResponse(code = 200, message = "An array of Users", response = User.class, responseContainer = "List"), @ApiResponse(code = 500, message = "Internal Server Error") })
+  @ApiResponses(value = { @ApiResponse(code = 200, message = "An array of Users", response = UsersPage.class), @ApiResponse(code = 500, message = "Internal Server Error") })
 
   @GET
   @AuthenticationTokenNeeded
   @RolesAllowed("ADMIN")
-  public Response getAllUsers()
+  public Response getAllUsers(@DefaultValue("0") @QueryParam("page") int page, @DefaultValue("20") @QueryParam("size") int itemsPerPage)
   {
     try
     {
-      List<User> users = userService.getAllUsers();
-      return Response.ok().entity(new GenericEntity<List<User>>(users)
+      Page<User> users = userService.getAllUsers(new Pageable(page,itemsPerPage));
+      return Response.ok().entity(new GenericEntity<Page<User>>(users)
       {
       }).build();
     }
