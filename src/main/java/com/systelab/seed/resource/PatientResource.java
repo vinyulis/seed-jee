@@ -7,26 +7,36 @@ import com.systelab.seed.service.PatientService;
 import com.systelab.seed.util.exceptions.PatientNotFoundException;
 import com.systelab.seed.util.pagination.Page;
 import com.systelab.seed.util.pagination.Pageable;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
+import javax.ws.rs.container.AsyncResponse;
+import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 import java.io.OutputStream;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Api(value = "Patient")
-
+@Tag(name = "Patient")
 @Path("patients")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
@@ -36,6 +46,9 @@ public class PatientResource {
 
     private Logger logger;
 
+    @Resource
+    ManagedExecutorService exec;
+
     @EJB
     private PatientService patientService;
 
@@ -44,9 +57,9 @@ public class PatientResource {
         this.logger = logger;
     }
 
-    @ApiOperation(value = "Get all Patients", notes = "")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "A Page of Patients", response = PatientsPage.class), @ApiResponse(code = 500, message = "Internal Server Error")})
-
+    @Operation(description = "Get all Patients", summary = "Get all Patients")
+    @ApiResponse(responseCode = "200", description = "A Page of Patients", content = @Content(schema = @Schema(implementation = PatientsPage.class)))
+    @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @GET
     @PermitAll
     public Response getAllPatients(@DefaultValue("0") @QueryParam("page") int page, @DefaultValue("20") @QueryParam("size") int itemsPerPage) {
@@ -61,14 +74,17 @@ public class PatientResource {
         }
     }
 
-    @ApiOperation(value = "Create a Patient", notes = "", authorizations = {@Authorization(value = "Bearer")})
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "A Patient", response = Patient.class), @ApiResponse(code = 400, message = "Validation exception"), @ApiResponse(code = 500, message = "Internal Server Error")})
-
+    @Operation(description = "Create a Patient", summary = "Create a Patient")
+    @SecurityRequirement(name = "Authorization")
+    @ApiResponse(responseCode = "200", description = "A Patient", content = @Content(schema = @Schema(implementation = Patient.class)))
+    @ApiResponse(responseCode = "400", description = "Validation exception")
+    @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @POST
     @Path("patient")
     @AuthenticationTokenNeeded
     @PermitAll
-    public Response createPatient(@ApiParam(value = "Patient", required = true) @Valid Patient patient) {
+    public Response createPatient(@RequestBody(description = "Patient", required = true, content = @Content(
+            schema = @Schema(implementation = Patient.class))) @Valid Patient patient) {
         try {
             patient.setId(null);
             patientService.create(patient);
@@ -79,16 +95,18 @@ public class PatientResource {
         }
     }
 
-    @ApiOperation(value = "Create or Update (idempotent) an existing Patient", notes = "", authorizations = {@Authorization(value = "Bearer")})
-    @ApiResponses(
-            value = {@ApiResponse(code = 200, message = "A Patient", response = Patient.class), @ApiResponse(code = 400, message = "Validation exception"), @ApiResponse(code = 404, message = "Patient not found"),
-                    @ApiResponse(code = 500, message = "Internal Server Error")})
-
+    @Operation(description = "Create or Update (idempotent) an existing Patient", summary = "Create or Update (idempotent) an existing Patient")
+    @SecurityRequirement(name = "Authorization")
+    @ApiResponse(responseCode = "200", description = "A Patient", content = @Content(schema = @Schema(implementation = Patient.class)))
+    @ApiResponse(responseCode = "400", description = "Validation exception")
+    @ApiResponse(responseCode = "404", description = "Patient not found")
+    @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @PUT
     @Path("{uid}")
     @AuthenticationTokenNeeded
     @PermitAll
-    public Response updatePatient(@PathParam("uid") Long patientId, @ApiParam(value = "Patient", required = true) @Valid Patient patient) {
+    public Response updatePatient(@PathParam("uid") Long patientId, @RequestBody(description = "Patient", required = true, content = @Content(
+            schema = @Schema(implementation = Patient.class))) @Valid Patient patient) {
         try {
             patient.setId(patientId);
             Patient updatedPatient = patientService.update(patientId, patient);
@@ -99,9 +117,10 @@ public class PatientResource {
         }
     }
 
-    @ApiOperation(value = "Get Patient", notes = "")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "A Patient", response = Patient.class), @ApiResponse(code = 404, message = "Patient not found"), @ApiResponse(code = 500, message = "Internal Server Error")})
-
+    @Operation(description = "Get Patient", summary = "Get Patient")
+    @ApiResponse(responseCode = "200", description = "A Patient", content = @Content(schema = @Schema(implementation = Patient.class)))
+    @ApiResponse(responseCode = "404", description = "Patient not found")
+    @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @GET
     @Path("{uid}")
     @PermitAll
@@ -119,9 +138,9 @@ public class PatientResource {
         }
     }
 
-    @ApiOperation(value = "Get all Patients in an Excel file", notes = "")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "An Excel file"), @ApiResponse(code = 500, message = "Internal Server Error")})
-
+    @Operation(description = "Get all Patients in an Excel file", summary = "Get all Patients in an Excel file")
+    @ApiResponse(responseCode = "200", description = "An Excel file")
+    @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @GET
     @Path("/report")
     @PermitAll
@@ -139,9 +158,10 @@ public class PatientResource {
         }
     }
 
-    @ApiOperation(value = "Delete a Patient", notes = "", authorizations = {@Authorization(value = "Bearer")})
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 500, message = "Internal Server Error")})
-
+    @Operation(description = "Delete a Patient", summary = "Delete a Patient")
+    @SecurityRequirement(name = "Authorization")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @DELETE
     @Path("{uid}")
     @AuthenticationTokenNeeded
@@ -158,5 +178,4 @@ public class PatientResource {
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
     }
-
 }

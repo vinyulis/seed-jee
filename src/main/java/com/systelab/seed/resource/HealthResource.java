@@ -1,9 +1,8 @@
 package com.systelab.seed.resource;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import javax.annotation.security.PermitAll;
 import javax.ws.rs.GET;
@@ -12,15 +11,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Api(value = "Health")
+@Tag(name = "Health")
 
 @Path("health")
 @Produces({MediaType.TEXT_PLAIN})
 public class HealthResource {
 
-    @ApiOperation(value = "Check Health", notes = "")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Healthy"), @ApiResponse(code = 500, message = "Internal Server Error")})
 
+    @Operation(summary = "Check Health", description = "Check Health")
+    @ApiResponse(responseCode = "200", description = "Healthy!")
+    @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @GET
     @PermitAll
     public Response checkHealth() {
