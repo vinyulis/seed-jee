@@ -16,11 +16,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
-import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
