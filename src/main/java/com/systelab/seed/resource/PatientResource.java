@@ -24,15 +24,12 @@ import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
-import javax.ws.rs.container.AsyncResponse;
-import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 import java.io.OutputStream;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,9 +42,6 @@ public class PatientResource {
     public static final String INVALID_PATIENT_ERROR_MESSAGE = "Invalid Patient";
 
     private Logger logger;
-
-    @Resource
-    ManagedExecutorService exec;
 
     @EJB
     private PatientService patientService;
