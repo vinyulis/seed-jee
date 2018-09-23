@@ -17,22 +17,19 @@ import java.util.stream.Stream;
 
 public class SeedApplication extends Application {
 
-    public SeedApplication(@Context ServletConfig servletConfig) {
+    public SeedApplication(@Context ServletConfig servletConfig) throws OpenApiConfigurationException {
         super();
 
         OpenAPI oas = new OpenAPI();
+
         SwaggerConfiguration oasConfig = new SwaggerConfiguration()
                 .openAPI(oas).prettyPrint(true)
                 .resourcePackages(Stream.of("com.systelab.seed.resource").collect(Collectors.toSet()));
 
-        try {
-            new JaxrsOpenApiContextBuilder()
-                    .servletConfig(servletConfig)
-                    .application(this)
-                    .openApiConfiguration(oasConfig)
-                    .buildContext(true);
-        } catch (OpenApiConfigurationException e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
+        new JaxrsOpenApiContextBuilder()
+                .servletConfig(servletConfig)
+                .application(this)
+                .openApiConfiguration(oasConfig)
+                .buildContext(true);
     }
 }
