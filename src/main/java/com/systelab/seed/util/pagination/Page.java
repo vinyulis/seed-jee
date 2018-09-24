@@ -1,5 +1,8 @@
 package com.systelab.seed.util.pagination;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
@@ -10,6 +13,7 @@ import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@Data
 public class Page<T> implements Serializable {
 
     private long totalElements;
@@ -25,21 +29,5 @@ public class Page<T> implements Serializable {
     public Page(List<T> content, long total) {
         this.content = content;
         this.totalElements = total;
-    }
-
-    public void setTotalElements(long totalElements) {
-        this.totalElements = totalElements;
-    }
-
-    public void setContent(List<T> content) {
-        this.content = content;
-    }
-
-    public long getTotalElements() {
-        return totalElements;
-    }
-
-    public List<T> getContent() {
-        return content;
     }
 }

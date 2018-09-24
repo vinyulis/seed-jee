@@ -36,8 +36,8 @@ import java.util.logging.Logger;
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
 public class PatientResource {
-    public static final String INTERNAL_SERVER_ERROR_MESSAGE = "Internal Server Error";
-    public static final String INVALID_PATIENT_ERROR_MESSAGE = "Invalid Patient";
+    private static final String INTERNAL_SERVER_ERROR_MESSAGE = "Internal Server Error";
+    private static final String INVALID_PATIENT_ERROR_MESSAGE = "Invalid Patient";
 
     private Logger logger;
 

@@ -37,7 +37,7 @@ import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
 public class UserResource {
-    public static final String INTERNAL_SERVER_ERROR_MESSAGE = "Internal Server Error";
+    private static final String INTERNAL_SERVER_ERROR_MESSAGE = "Internal Server Error";
 
     private Logger logger;
 

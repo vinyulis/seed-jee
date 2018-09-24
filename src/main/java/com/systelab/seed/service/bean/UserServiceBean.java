@@ -49,9 +49,9 @@ public class UserServiceBean implements UserService {
         query.setMaxResults(pageable.getPageSize());
 
         List<User> users = query.getResultList();
-        long totalElements = (long) queryTotal.getSingleResult();
+        long totalElements = queryTotal.getSingleResult();
 
-        return new Page<User>(users, totalElements);
+        return new Page<>(users, totalElements);
     }
 
     @Override
