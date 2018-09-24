@@ -1,8 +1,6 @@
 package com.systelab.seed.util.pagination;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
