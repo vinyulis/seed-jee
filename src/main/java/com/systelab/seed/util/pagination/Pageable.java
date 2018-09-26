@@ -1,25 +1,26 @@
 package com.systelab.seed.util.pagination;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
+@EqualsAndHashCode
+@ToString
 public class Pageable {
 
-    private int number;
-    private int size;
+    @Getter
+    private int pageNumber;
+
+    @Getter
+    private int pageSize;
 
     public Pageable() {
-        this.number = 1;
-        this.size = 100;
+        this.pageNumber = 1;
+        this.pageSize = 100;
     }
 
-    public Pageable(int number, int size) {
-        this.number = number;
-        this.size = size;
-    }
-
-    public int getPageNumber() {
-        return number;
-    }
-
-    public int getPageSize() {
-        return size;
+    public Pageable(int pageNumber, int pageSize) {
+        this.pageNumber = pageNumber;
+        this.pageSize = pageSize;
     }
 }

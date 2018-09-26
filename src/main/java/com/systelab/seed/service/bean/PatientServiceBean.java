@@ -68,9 +68,9 @@ public class PatientServiceBean implements PatientService {
         query.setMaxResults(pageable.getPageSize());
 
         List<Patient> patients = query.getResultList();
-        long totalElements = (long) queryTotal.getSingleResult();
+        long totalElements = queryTotal.getSingleResult();
 
-        return new Page<Patient>(patients, totalElements);
+        return new Page<>(patients, totalElements);
     }
 
 

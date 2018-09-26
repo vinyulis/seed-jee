@@ -1,49 +1,35 @@
 package com.systelab.seed;
 
-import com.systelab.seed.infrastructure.auth.TokenAuthenticationFilter;
-import com.systelab.seed.resource.HealthResource;
-import com.systelab.seed.resource.PatientResource;
-import com.systelab.seed.resource.UserResource;
-import com.systelab.seed.util.security.CORSFilter;
 
-import java.util.HashSet;
-import java.util.Set;
+import io.swagger.v3.jaxrs2.integration.JaxrsOpenApiContextBuilder;
+import io.swagger.v3.oas.integration.OpenApiConfigurationException;
+import io.swagger.v3.oas.integration.SwaggerConfiguration;
+import io.swagger.v3.oas.models.OpenAPI;
 
+import javax.servlet.ServletConfig;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
-
-import io.swagger.jaxrs.config.BeanConfig;
+import javax.ws.rs.core.Context;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @ApplicationPath("/v1")
 
 public class SeedApplication extends Application {
-    public SeedApplication() {
+
+    public SeedApplication(@Context ServletConfig servletConfig) throws OpenApiConfigurationException {
         super();
 
-        BeanConfig beanConfig = new BeanConfig();
-        beanConfig.setVersion("1.0.2");
-        beanConfig.setSchemes(new String[]{"http", "https"});
-        beanConfig.setHost("");
-        beanConfig.setBasePath("/seed/v1");
-        beanConfig.setResourcePackage("com.systelab.seed.resource");
-        beanConfig.setScan(true);
+        OpenAPI oas = new OpenAPI();
 
-    }
+        SwaggerConfiguration oasConfig = new SwaggerConfiguration()
+                .openAPI(oas).prettyPrint(true)
+                .resourcePackages(Stream.of("com.systelab.seed.resource").collect(Collectors.toSet()));
 
-    @Override
-    public Set<Class<?>> getClasses() {
-        Set<Class<?>> resources = new HashSet<>();
-
-        resources.add(io.swagger.jaxrs.listing.ApiListingResource.class);
-        resources.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);
-
-        resources.add(PatientResource.class);
-        resources.add(UserResource.class);
-        resources.add(HealthResource.class);
-
-        resources.add(CORSFilter.class);
-        resources.add(TokenAuthenticationFilter.class);
-
-        return resources;
+        new JaxrsOpenApiContextBuilder()
+                .servletConfig(servletConfig)
+                .application(this)
+                .openApiConfiguration(oasConfig)
+                .buildContext(true);
     }
 }

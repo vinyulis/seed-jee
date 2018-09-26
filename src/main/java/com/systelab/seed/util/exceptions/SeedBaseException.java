@@ -1,7 +1,5 @@
 package com.systelab.seed.util.exceptions;
 
-import java.io.Serializable;
-
 /**
  * SeedException wraps all checked standard Java exception and enriches them with a custom error code.
  * You can use this code to retrieve localized error messages and to link to our online documentation.
