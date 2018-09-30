@@ -13,6 +13,7 @@ import org.junit.jupiter.api.*;
 import org.junit.runners.MethodSorters;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -161,7 +162,8 @@ public class PatientClientTest extends BaseClientTest {
 
         Exception caughtException = null;
         try {
-            clientForPatient.get(new Long(23434534).longValue());
+            clientForPatient.get(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+            );
         } catch (Exception ex) {
             caughtException = ex;
         }
@@ -190,7 +192,7 @@ public class PatientClientTest extends BaseClientTest {
     public void testDeleteUnexistingPatient() throws RequestException {
         Exception caughtException = null;
         try {
-            clientForPatient.delete(new Long(34324).longValue());
+            clientForPatient.delete(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"));
         } catch (Exception ex) {
             caughtException = ex;
         }

@@ -28,6 +28,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 import java.io.OutputStream;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -97,11 +98,12 @@ public class PatientResource {
     @Path("{uid}")
     @AuthenticationTokenNeeded
     @PermitAll
-    public Response updatePatient(@PathParam("uid") Long patientId, @RequestBody(description = "Patient", required = true, content = @Content(
+    public Response updatePatient(@PathParam("uid") String patientId, @RequestBody(description = "Patient", required = true, content = @Content(
             schema = @Schema(implementation = Patient.class))) @Valid Patient patient) {
         try {
-            patient.setId(patientId);
-            Patient updatedPatient = patientService.update(patientId, patient);
+            UUID id=UUID.fromString(patientId);
+            patient.setId(id);
+            Patient updatedPatient = patientService.update(id, patient);
             return Response.ok().entity(updatedPatient).build();
         } catch (Exception ex) {
             logger.log(Level.SEVERE, PatientResource.INTERNAL_SERVER_ERROR_MESSAGE, ex);
@@ -116,9 +118,10 @@ public class PatientResource {
     @GET
     @Path("{uid}")
     @PermitAll
-    public Response getPatient(@PathParam("uid") Long patientId) {
+    public Response getPatient(@PathParam("uid") String patientId) {
         try {
-            Patient patient = patientService.getPatient(patientId);
+            UUID id=UUID.fromString(patientId);
+            Patient patient = patientService.getPatient(id);
 
             if (patient == null) {
                 return Response.status(Status.NOT_FOUND).build();
@@ -158,9 +161,10 @@ public class PatientResource {
     @Path("{uid}")
     @AuthenticationTokenNeeded
     @RolesAllowed("ADMIN")
-    public Response remove(@PathParam("uid") Long patientId) {
+    public Response remove(@PathParam("uid") String patientId) {
         try {
-            patientService.delete(patientId);
+            UUID id=UUID.fromString(patientId);
+            patientService.delete(id);
             return Response.ok().build();
         } catch (PatientNotFoundException ex) {
             logger.log(Level.SEVERE, PatientResource.INVALID_PATIENT_ERROR_MESSAGE, ex);

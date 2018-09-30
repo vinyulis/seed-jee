@@ -334,6 +334,12 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>3.17</version>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>5.3.6.Final</version>
+			<scope>provided</scope>
+		</dependency>
 
         <!--#### TEST DEPENDENCIES ####-->
         <dependency>

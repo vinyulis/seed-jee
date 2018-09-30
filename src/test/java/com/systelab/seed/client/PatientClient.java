@@ -10,6 +10,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.UUID;
 
 public class PatientClient extends BaseClient {
 
@@ -26,8 +27,8 @@ public class PatientClient extends BaseClient {
     }
 
     @Step("Get the patient with id {0}")
-    public Patient get(Long id) throws RequestException {
-        WebTarget target = this.getWebTarget().path("patients/" + id);
+    public Patient get(UUID id) throws RequestException {
+        WebTarget target = this.getWebTarget().path("patients/" + id.toString());
 
         Response response = target.request(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, getAuthenticationToken()).get(Response.class);
 
@@ -51,8 +52,8 @@ public class PatientClient extends BaseClient {
     }
 
     @Step("Delete the patient {0}")
-    public boolean delete(Long id) throws RequestException {
-        WebTarget target = this.getWebTarget().path("patients/" + id);
+    public boolean delete(UUID id) throws RequestException {
+        WebTarget target = this.getWebTarget().path("patients/" + id.toString());
 
         Response response = target.request(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, getAuthenticationToken()).delete(Response.class);
 
