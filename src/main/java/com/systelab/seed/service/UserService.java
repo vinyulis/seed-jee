@@ -7,17 +7,18 @@ import com.systelab.seed.util.pagination.Page;
 import com.systelab.seed.util.pagination.Pageable;
 
 import javax.ejb.Local;
+import java.util.UUID;
 
 @Local
 public interface UserService {
 
-    User getUser(Long id);
+    User getUser(UUID id);
 
     Page<User> getAllUsers(Pageable pageable);
 
     void create(User user) throws SeedBaseException;
 
-    void delete(Long id) throws UserNotFoundException;
+    void delete(UUID id) throws UserNotFoundException;
 
     String getToken(String uri, String login, String password) throws SecurityException, SeedBaseException;
 
