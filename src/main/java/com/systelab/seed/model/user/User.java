@@ -36,7 +36,7 @@ public class User {
     private String name;
 
     @Size(min = 1, max = 10)
-    @Column(length = 10, nullable = false)
+    @Column(length = 10, nullable = false, unique=true)
     private String login;
 
     @Size(min = 1, max = 256)
