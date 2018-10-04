@@ -20,6 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.UUID;
 
 @Stateless
 public class PatientServiceBean implements PatientService {
@@ -43,14 +44,14 @@ public class PatientServiceBean implements PatientService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Patient update(Long id, Patient patient) {
+    public Patient update(UUID id, Patient patient) {
         em.merge(patient);
         return patient;
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void delete(Long id) throws PatientNotFoundException {
+    public void delete(UUID id) throws PatientNotFoundException {
         Patient p = em.find(Patient.class, id);
         if (p != null) {
             em.remove(p);
@@ -97,7 +98,7 @@ public class PatientServiceBean implements PatientService {
     }
 
     @Override
-    public Patient getPatient(Long patientId) {
+    public Patient getPatient(UUID patientId) {
         return em.find(Patient.class, patientId);
     }
 

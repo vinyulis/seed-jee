@@ -2,11 +2,13 @@ package com.systelab.seed.model.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -22,8 +24,10 @@ public class User {
     public static final String FIND_BY_LOGIN_PASSWORD = "User.findByLoginAndPassword";
 
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
 
     @Size(min = 1, max = 255)
     private String surname;
@@ -32,7 +36,7 @@ public class User {
     private String name;
 
     @Size(min = 1, max = 10)
-    @Column(length = 10, nullable = false)
+    @Column(length = 10, nullable = false, unique=true)
     private String login;
 
     @Size(min = 1, max = 256)
@@ -48,7 +52,7 @@ public class User {
         this.role = UserRole.USER;
     }
 
-    public User(Long id, String name, String surname, String login, String password) {
+    public User(UUID id, String name, String surname, String login, String password) {
         this.id = id;
         this.surname = surname;
         this.name = name;

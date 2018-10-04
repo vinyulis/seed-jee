@@ -23,6 +23,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -104,9 +105,10 @@ public class UserResource {
     @Path("{uid}")
     @AuthenticationTokenNeeded
     @PermitAll
-    public Response findById(@PathParam("uid") Long userId) {
+    public Response findById(@PathParam("uid") String userId) {
         try {
-            User user = userService.getUser(userId);
+            UUID id=UUID.fromString(userId);
+            User user = userService.getUser(id);
 
             if (user == null) {
                 return Response.status(Status.NOT_FOUND).build();
@@ -144,9 +146,10 @@ public class UserResource {
     @Path("{uid}")
     @AuthenticationTokenNeeded
     @RolesAllowed("ADMIN")
-    public Response remove(@PathParam("uid") Long userId) {
+    public Response remove(@PathParam("uid") String userId) {
         try {
-            userService.delete(userId);
+            UUID id=UUID.fromString(userId);
+            userService.delete(id);
             return Response.ok().build();
         } catch (UserNotFoundException ex) {
             logger.log(Level.SEVERE, "Invalid User", ex);

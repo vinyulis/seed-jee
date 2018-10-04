@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.UUID;
 
 @Stateless
 public class UserServiceBean implements UserService {
@@ -37,7 +38,7 @@ public class UserServiceBean implements UserService {
     }
 
     @Override
-    public User getUser(Long id) {
+    public User getUser(UUID id) {
         return em.find(User.class, id);
     }
 
@@ -63,7 +64,7 @@ public class UserServiceBean implements UserService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void delete(Long id) throws UserNotFoundException {
+    public void delete(UUID id) throws UserNotFoundException {
         User u = em.find(User.class, id);
         if (u != null) {
             em.remove(u);

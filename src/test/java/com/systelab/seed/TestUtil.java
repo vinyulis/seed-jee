@@ -3,6 +3,8 @@ package com.systelab.seed;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 
+import java.util.UUID;
+
 public class TestUtil {
 
     @Step("Expected result: The returning value is true")
@@ -42,6 +44,11 @@ public class TestUtil {
 
     @Step("Expected result: The returned id is {1}")
     public static void printReturnedId(String idName, long id) {
+        // Returning id
+    }
+
+    @Step("Expected result: The returned id is {1}")
+    public static void printReturnedId(String idName, UUID id) {
         // Returning id
     }
 }

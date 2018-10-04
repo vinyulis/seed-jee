@@ -7,6 +7,7 @@ import com.systelab.seed.util.pagination.Pageable;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.ejb.Local;
+import java.util.UUID;
 
 @Local
 public interface PatientService {
@@ -15,11 +16,11 @@ public interface PatientService {
 
     XSSFWorkbook getPatientsWorkbook();
 
-    Patient getPatient(Long patientId);
+    Patient getPatient(UUID patientId);
 
     void create(Patient patient);
 
-    Patient update(Long id, Patient patient);
+    Patient update(UUID id, Patient patient);
 
-    void delete(Long id) throws PatientNotFoundException;
+    void delete(UUID id) throws PatientNotFoundException;
 }
