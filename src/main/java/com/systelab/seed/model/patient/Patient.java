@@ -6,7 +6,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -14,11 +16,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @XmlRootElement
-@XmlType(propOrder = {"id", "name", "surname", "email", "dob", "address"})
+@XmlType(propOrder = {"id", "name", "surname", "email", "dob", "create_ts", "update_ts", "address"})
 
 @Entity
 @Data
@@ -52,6 +55,12 @@ public class Patient implements Serializable {
     @XmlJavaTypeAdapter(JsonLocalDateTypeAdapter.class)
     @Schema(description = "ISO 8601 Format.", example = "1986-01-22T23:28:56.782Z")
     private LocalDate dob;
+
+    @CreationTimestamp
+    private Timestamp create_ts;
+
+    @UpdateTimestamp
+    private Timestamp update_ts;
 
     @Embedded
     private Address address;
