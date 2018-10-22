@@ -7,6 +7,13 @@
     "connection.url": "jdbc:mysql://db2:3306/SEED",
     "connection.user": "SEED",
     "connection.password": "SEED",
-    "insert.mode": "upsert"
+    "insert.mode": "upsert",
+    "pk.mode": "record_value",
+    "pk.fields": "id",
+
+    "transforms": "dropPrefix",
+    "transforms.dropPrefix.type":"org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.dropPrefix.regex":"seed-jee-mysql-db1-(.*)",
+    "transforms.dropPrefix.replacement":"$1"
   }
 }
